@@ -17,14 +17,15 @@
 // 修改内容:
 // 版    本: 1.0.0
 // ===================================================================
-using Grd.Core;
-using Grd.EFCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using Topshelf.Core;
+using Topshelf.EFCore;
 
 /// <summary>
 /// 数据库 [<%= SourceTable.Database.Name %>] 中表 [<%= SourceTable.FullName %>] 的实体类.
 /// </summary>
-namespace Grd.Models
+namespace Topshelf.Models
 {
 	/// <summary>
 	///<%= SourceTable.Description %>
@@ -44,7 +45,6 @@ namespace Grd.Models
 		public <%= GetCSharpVariableType(SourceTable.Columns[i]) %> <%= GetClassName(SourceTable.Columns[i].Name) %> { get; set; }
         <% } %>    
 		<% if (i < SourceTable.Columns.Count - 1) Response.Write("\r\n"); %>	
-        
 		<% } %>		
 	}
 }

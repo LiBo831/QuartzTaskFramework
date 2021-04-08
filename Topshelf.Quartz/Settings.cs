@@ -19,6 +19,8 @@ namespace Topshelf.Core
             Configuration = builder.Build();
         }
 
+        public string CsvPath => Configuration["CSVPath"];
+
         public string ServiceName => Configuration["ServiceName"];
 
         public string ServiceDisplayName => Configuration["ServiceDisplayName"];

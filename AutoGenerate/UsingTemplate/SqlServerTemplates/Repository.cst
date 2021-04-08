@@ -19,13 +19,12 @@
 // 版    本: 1.0.0
 // ===================================================================
 using System;
-using Grd.Code;
-using Grd.Model;
-using Grd.Utility;
-using Grd.IRepository;
-using System.Collections.Generic;
+using Topshelf.Domain.IRepository;
+using Topshelf.EFCore;
+using Topshelf.Infrastructure;
+using Topshelf.Models;
 
-namespace Grd.Repository
+namespace Topshelf.Domain.Repository
 {
     public class <%= GetClassName(SourceTable) %>Repository : BaseRepository<<%= GetClassName(SourceTable) %>, <%= GetCSharpVariableType(SourceTable.Columns[0]) %>>, I<%= GetClassName(SourceTable) %>Repository
     {

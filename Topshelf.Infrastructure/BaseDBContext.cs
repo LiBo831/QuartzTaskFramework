@@ -52,10 +52,7 @@ namespace Topshelf.Infrastructure
 
         private void MappingEntityTypes(ModelBuilder modelBuilder)
         {
-            if (string.IsNullOrEmpty(Option.ModelAssemblyName))
-            {
-                return;
-            }
+            if (string.IsNullOrEmpty(Option.ModelAssemblyName)) { return; }
             var assembly = Assembly.Load(Option.ModelAssemblyName);
             var types = assembly?.GetTypes().Where(c => c.GetCustomAttributes<DbContextAttribute>().Any());
             var list = types?.Where(t => t.IsImplement(typeof(IBaseModel<>))).ToList();
@@ -267,7 +264,6 @@ namespace Topshelf.Infrastructure
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>
-
         /// <param name="updateColumns"></param>
         /// <returns></returns>
         public virtual int Update<T>(T model, params string[] updateColumns) where T : class
@@ -288,6 +284,10 @@ namespace Topshelf.Infrastructure
             return SaveChanges();
         }
 
+        public virtual void BatchUpdateSaveChange<T>(IList<T> entities) where T : class => throw new NotImplementedException();
+
+        public virtual void BatchUpdateSaveChangeAsync<T>(IList<T> entities) where T : class => throw new NotImplementedException();
+
         public virtual int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
         {
             return GetDbSet<T>().Where(where).Update(updateFactory);
@@ -296,6 +296,12 @@ namespace Topshelf.Infrastructure
         public virtual async Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
         {
             return await GetDbSet<T>().Where(where).UpdateAsync(updateFactory);
+        }
+
+        public virtual int UpdateRange<T>(IEnumerable<T> entities) where T : class
+        {
+            base.UpdateRange(entities);
+            return SaveChanges();
         }
 
         /// <summary>
@@ -321,12 +327,15 @@ namespace Topshelf.Infrastructure
         /// <typeparam name="TKey"></typeparam>
         /// <param name="entities"></param>
         /// <param name="destinationTableName"></param>
-        public virtual void BulkInsert<T>(IList<T> entities, string destinationTableName = null) where T : class
+        public virtual void BulkInsertForDatabaseMechanism<T>(IList<T> entities, string destinationTableName = null) where T : class
         {
-            //if (!Database.IsSqlServer() && !Database.IsMySql())
-            if (!Database.IsSqlServer())
+            if (!Database.IsSqlServer() && !Database.IsMySql())
                 throw new NotSupportedException("This method only supports for SQL Server or MySql.");
         }
+
+        public virtual void BatchInsert<T>(IList<T> entities) where T : class => throw new NotImplementedException();
+
+        public virtual void BatchInsertAsync<T>(IList<T> entities) where T : class => throw new NotImplementedException();
 
         public virtual List<TView> SqlQuery<T, TView>(string sql, params object[] parameters)
             where T : class

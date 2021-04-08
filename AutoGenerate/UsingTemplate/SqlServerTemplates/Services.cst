@@ -18,19 +18,21 @@
 // 修改内容:
 // 版    本: 1.0.0
 // ===================================================================
-using System;
-using Grd.Model;
-using System.Data;
-using System.Linq;
-using Grd.IServices;
-using Grd.IRepository;
 using System.Collections.Generic;
+using Topshelf.Domain.IRepository;
+using Topshelf.Domain.IServices;
+using Topshelf.Models;
 
-namespace Grd.Services
+namespace Topshelf.Domain.Services
 {
     public class <%= GetClassName(SourceTable) %>Services : I<%= GetClassName(SourceTable) %>Services
     {
-        public I<%= GetClassName(SourceTable) %>Repository _<%= GetClassName(SourceTable.Name) %>  { get; set; }    
+        private readonly I<%= GetClassName(SourceTable) %>Repository _<%= GetClassName(SourceTable.Name) %>;   
+		
+		public <%= GetClassName(SourceTable) %>Services(I<%= GetClassName(SourceTable) %>Repository <%= GetClassName(SourceTable.Name) %>)
+		{
+			_<%= GetClassName(SourceTable.Name) %> = <%= GetClassName(SourceTable.Name) %>;
+		}
         
     }
 }

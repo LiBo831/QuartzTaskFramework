@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Topshelf.Core;
 using Topshelf.Infrastructure;
-using Z.EntityFramework.Plus;
 
 namespace Topshelf.EFCore
 {
@@ -44,9 +43,19 @@ namespace Topshelf.EFCore
             return await DbContext.AddRangeAsync(entities);
         }
 
-        public virtual void BulkInsert(IList<T> entities, string destinationTableName = null)
+        public virtual void BatchInsert(IList<T> entities)
         {
-            DbContext.BulkInsert<T>(entities, destinationTableName);
+            DbContext.BatchInsert<T>(entities);
+        }
+
+        public virtual void BatchInsertAsync(IList<T> entities)
+        {
+            DbContext.BatchInsertAsync<T>(entities);
+        }
+
+        public virtual void BulkInsertForDatabaseMechanism(IList<T> entities, string destinationTableName = null)
+        {
+            DbContext.BulkInsertForDatabaseMechanism<T>(entities, destinationTableName);
         }
 
         public int AddBySql(string sql)
@@ -72,6 +81,7 @@ namespace Topshelf.EFCore
         {
             return DbContext.EditRange(entities);
         }
+
         /// <summary>
         /// update query datas by columns.
         /// </summary>
@@ -79,20 +89,26 @@ namespace Topshelf.EFCore
         /// <param name="where"></param>
         /// <param name="updateExp"></param>
         /// <returns></returns>
-        public virtual int BatchUpdate(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp)
+        public virtual void BatchUpdateSaveChange(IList<T> entities)
         {
-            return DbContext.Update(where, updateExp);
+            DbContext.BatchUpdateSaveChange(entities);
         }
 
-        public virtual async Task<int> BatchUpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp)
+        public virtual void BatchUpdateSaveChangeAsync(IList<T> entities)
         {
-            return await DbContext.UpdateAsync(@where, updateExp);
+            DbContext.BatchUpdateSaveChangeAsync(entities);
         }
+
         public virtual int Update(T model, params string[] updateColumns)
         {
             DbContext.Update(model, updateColumns);
             return DbContext.SaveChanges();
         }
+        public virtual int UpdateRange(IEnumerable<T> entities)
+        {
+            return DbContext.UpdateRange<T>(entities);
+        }
+
 
         public virtual int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory)
         {
@@ -127,7 +143,6 @@ namespace Topshelf.EFCore
         {
             return await DbContext.DeleteAsync(where);
         }
-
 
         #endregion
 

@@ -14,10 +14,9 @@ namespace Topshelf.Quartz
         internal static ContainerBuilder ConfigureSelf(this ContainerBuilder builder)
         {
             var services = new ServiceCollection();
-            //services.Configure<User>("UserConfig", Settings.Instance.Configuration.GetSection("User"));
             services.Configure<DbContextOption>(options =>
             {
-                options.ConnectionString = "Data Source=192.168.0.62;DataBase=Grd_ProjectManage_2021;uid=sa;pwd=234.com;Integrated Security=False;User Instance=False;Connect timeout = 300";
+                options.ConnectionString = Settings.Instance.Configuration["SqlserverString"];
                 options.ModelAssemblyName = "Topshelf.Models";
                 options.IsOutputSql = false;
             });
@@ -28,8 +27,8 @@ namespace Topshelf.Quartz
                    .Where(t => t.Name.EndsWith("Repository", StringComparison.OrdinalIgnoreCase))
                    .AsImplementedInterfaces();
             builder.RegisterAssemblyTypes(assembly)
-                   .Where(t => t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase))
-                   .AsImplementedInterfaces().PropertiesAutowired();
+                   .Where(t => t.Name.EndsWith("Services", StringComparison.OrdinalIgnoreCase))
+                   .AsImplementedInterfaces();
             return builder;
         }
     }

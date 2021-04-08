@@ -53,8 +53,8 @@ namespace AutoGenerate
             this.DataSource_textBox.Name = "DataSource_textBox";
             this.DataSource_textBox.Size = new System.Drawing.Size(534, 132);
             this.DataSource_textBox.TabIndex = 0;
-            this.DataSource_textBox.Text = "Data Source=192.168.0.62;DataBase=GrdProject;uid=sa;pwd=234.com;Integrated Securi" +
-    "ty=False;User Instance=False;";
+            this.DataSource_textBox.Text = "Data Source=1.1.10.8;DataBase=WaterProject;uid=sa;pwd=234.com;Integrated Security" +
+    "=False;User Instance=False;";
             // 
             // Generate_button
             // 

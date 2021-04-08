@@ -7,11 +7,11 @@ using Topshelf.Core;
 
 namespace Topshelf.Quartz
 {
-    class JobService
+    public class JobService
     {
         private IScheduler sched;
         private CancellationTokenSource cts;
-        private IContainer container;
+        private readonly IContainer container;
 
         public JobService(IContainer Container)
         {

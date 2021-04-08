@@ -15,7 +15,9 @@ namespace Topshelf.EFCore
         Task<int> AddAsync(T entity);
         int AddRange(ICollection<T> entities);
         Task<int> AddRangeAsync(ICollection<T> entities);
-        void BulkInsert(IList<T> entities, string destinationTableName = null);
+        void BatchInsert(IList<T> entities);
+        void BatchInsertAsync(IList<T> entities);
+        void BulkInsertForDatabaseMechanism(IList<T> entities, string destinationTableName = null);
         int AddBySql(string sql);
 
         #endregion
@@ -26,15 +28,17 @@ namespace Topshelf.EFCore
         int Delete(Expression<Func<T, bool>> @where);
         Task<int> DeleteAsync(Expression<Func<T, bool>> @where);
         int DeleteBySql(string sql);
+
         #endregion
 
         #region Update
 
         int Edit(T entity);
         int EditRange(ICollection<T> entities);
-        int BatchUpdate(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp);
-        Task<int> BatchUpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp);
+        void BatchUpdateSaveChange(IList<T> entities);
+        void BatchUpdateSaveChangeAsync(IList<T> entities);
         int Update(T model, params string[] updateColumns);
+        int UpdateRange(IEnumerable<T> entities);
         int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
         Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
         int UpdateBySql(string sql);
@@ -42,7 +46,6 @@ namespace Topshelf.EFCore
         #endregion
 
         #region Query
-
         int Count(Expression<Func<T, bool>> @where = null);
         Task<int> CountAsync(Expression<Func<T, bool>> @where = null);
         bool Exist(Expression<Func<T, bool>> @where = null);

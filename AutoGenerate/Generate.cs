@@ -18,22 +18,22 @@ namespace AutoGenerate
             try
             {
                 Dictionary<string, string> srcs = new Dictionary<string, string>();
-                string AimModelPath, AimDALPath, AimIDALPath, AimBLLPath, AimIBLLPath;
-                AimModelPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\Config\\Entity").FullName;
+                string AimModelPath, AimRepositoryPath, AimIRepositoryPath, AimServicesPath, AimIServicesPath;
+                AimModelPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\..\\Topshelf.Models\\Entities").FullName;
                 if (!AimModelPath.EndsWith("\\")) AimModelPath += "\\";
-                AimDALPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\Config\\Repository").FullName;
-                if (!AimDALPath.EndsWith("\\")) AimDALPath += "\\";
-                AimIDALPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\Config\\IRepository").FullName;
-                if (!AimIDALPath.EndsWith("\\")) AimIDALPath += "\\";
-                AimBLLPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\Config\\Services").FullName;
-                if (!AimBLLPath.EndsWith("\\")) AimBLLPath += "\\";
-                AimIBLLPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\Config\\IServices").FullName;
-                if (!AimIBLLPath.EndsWith("\\")) AimIBLLPath += "\\";
+                AimRepositoryPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\..\\Topshelf.Domain\\Repository").FullName;
+                if (!AimRepositoryPath.EndsWith("\\")) AimRepositoryPath += "\\";
+                AimIRepositoryPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\..\\Topshelf.Domain\\IRepository").FullName;
+                if (!AimIRepositoryPath.EndsWith("\\")) AimIRepositoryPath += "\\";
+                AimServicesPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\..\\Topshelf.Domain\\Services").FullName;
+                if (!AimServicesPath.EndsWith("\\")) AimServicesPath += "\\";
+                AimIServicesPath = new System.IO.DirectoryInfo(Application.StartupPath + "\\..\\..\\..\\Topshelf.Domain\\IServices").FullName;
+                if (!AimIServicesPath.EndsWith("\\")) AimIServicesPath += "\\";
                 srcs.Add("Model", AimModelPath);
-                srcs.Add("Repository", AimDALPath);
-                srcs.Add("IRepository", AimIDALPath);
-                srcs.Add("Services", AimBLLPath);
-                srcs.Add("IServices", AimIBLLPath);
+                srcs.Add("Repository", AimRepositoryPath);
+                srcs.Add("IRepository", AimIRepositoryPath);
+                srcs.Add("Services", AimServicesPath);
+                srcs.Add("IServices", AimIServicesPath);
                 string name = default;
                 DatabaseSchema db = default;
                 foreach (System.Windows.Forms.Control outctrl in flowLayoutPanel1.Controls)
@@ -99,7 +99,6 @@ namespace AutoGenerate
                     compiler.Compile();
                     if (compiler.Errors.Count == 0)
                     {
-
                         foreach (var src in srcs)
                         {
                             string head = "";
@@ -124,7 +123,6 @@ namespace AutoGenerate
                             mytemplae.RenderToString();
                         }
                     }
-
                 }
                 MessageBox.Show("Success!!!!");
                 Application.Exit();

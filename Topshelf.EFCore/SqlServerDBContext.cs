@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using EFCore.BulkExtensions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -6,15 +7,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Topshelf.Core;
 using Topshelf.Infrastructure;
 
 namespace Topshelf.EFCore
 {
-    public class SqlServerDBContext : BaseDBContext, ISqlServerDbContext
+    public class SqlServerDBContext : BaseDBContext
     {
 
         public SqlServerDBContext(IOptions<DbContextOption> option) : base(option)
@@ -34,7 +35,30 @@ namespace Topshelf.EFCore
             base.OnConfiguring(optionsBuilder);
         }
 
-        public override void BulkInsert<T>(IList<T> entities, string destinationTableName = null)
+        public override void BatchUpdateSaveChange<T>(IList<T> entities)
+        {
+            this.BulkUpdate(entities);
+        }
+
+        public override void BatchUpdateSaveChangeAsync<T>(IList<T> entities)
+        {
+            this.BulkUpdateAsync(entities);
+        }
+
+        public override void BatchInsert<T>(IList<T> entities)
+        {
+            this.BulkInsert(entities);
+        }
+
+        public override void BatchInsertAsync<T>(IList<T> entities)
+        {
+            this.BulkInsertAsync(entities);
+        }
+
+
+        #region BulkInsertForDatabaseMechanism
+
+        public override void BulkInsertForDatabaseMechanism<T>(IList<T> entities, string destinationTableName = null)
         {
             if (entities == null || !entities.Any()) return;
             if (string.IsNullOrEmpty(destinationTableName))
@@ -63,13 +87,14 @@ namespace Topshelf.EFCore
                             DestinationTableName = dt.TableName,
                         };
                         GenerateColumnMappings<T>(bulk.ColumnMappings);
-                        bulk.WriteToServerAsync(dt);
+                        //bulk.WriteToServerAsync(dt);
+                        bulk.WriteToServer(dt);
                         tran.Commit();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw;
+                        throw ex;
                     }
                 }
                 conn.Close();
@@ -93,26 +118,7 @@ namespace Topshelf.EFCore
             }
         }
 
-        //public override PaginationResult SqlQueryByPagination<T, TView>(string sql, string[] orderBys, int pageIndex, int pageSize,
-        //    Action<TView> eachAction = null)
-        //{
-        //    var total = SqlQuery<T, int>($"select count(1) from ({sql}) as s").FirstOrDefault();
-        //    var jsonResults = SqlQuery<T, TView>(
-        //            $"select * from (select *,row_number() over (order by {string.Join(",", orderBys)}) as RowId from ({sql}) as s) as t where RowId between {pageSize * (pageIndex - 1) + 1} and {pageSize * pageIndex} order by {string.Join(",", orderBys)}")
-        //        .ToList();
-        //    if (eachAction != null)
-        //    {
-        //        jsonResults = jsonResults.Each(eachAction).ToList();
-        //    }
-
-        //    return new PaginationResult(true, string.Empty, jsonResults)
-        //    {
-        //        pageIndex = pageIndex,
-        //        pageSize = pageSize,
-        //        total = total
-        //    };
-        //}
-
+        #endregion
 
         //public override PaginationResult SqlQueryByPagination<T>(string sql, string[] orderBys, int pageIndex, int pageSize,
         //    params DbParameter[] parameters)

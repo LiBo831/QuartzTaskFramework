@@ -18,11 +18,8 @@
 // 修改内容:
 // 版    本: 1.0.0
 // ===================================================================
-using Grd.Model;
-using System.Data;
-using System.Collections.Generic;
 
-namespace Grd.IServices
+namespace Topshelf.Domain.IServices
 {
     public interface I<%= GetClassName(SourceTable) %>Services
     {

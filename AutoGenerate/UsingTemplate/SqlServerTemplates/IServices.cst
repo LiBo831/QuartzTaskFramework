@@ -1,0 +1,168 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="Table that the object is based on." %>
+<%@ Property Name="DBSource" Type="String" Category="Context" Optional="True" Description="DataBase type" %>
+<%@ Property Name="Author" Type="System.String" Default="Hamberger" Category="Text" Description="Namespace for this class" %>
+<%@ Assembly Name="SchemaExplorer"%>
+<%@ Assembly Name="System.Data"%>
+<%@ Import Namespace="SchemaExplorer"%>
+<%@ Import Namespace="System.Data"%>
+<%@ Import Namespace="System.Text"%>
+// =================================================================== 
+// 项目说明
+//====================================================================
+// 文件： <%= GetClassName(SourceTable) %>.cs
+// 创 建 人: <%= Author %> 
+// 创建时间：<%=DateTime.Now.ToShortDateString() %>
+// 修 改 人: 
+// 修改日期:
+// 修改内容:
+// 版    本: 1.0.0
+// ===================================================================
+using Grd.Model;
+using System.Data;
+using System.Collections.Generic;
+
+namespace Grd.IServices
+{
+    public interface I<%= GetClassName(SourceTable) %>Services
+    {
+        
+    }
+}
+    
+    
+    
+<script runat="template">
+#region script
+public string GetMemberVariableDeclarationStatement(ColumnSchema column)
+{
+	return GetCSharpVariableType(column) + " " + GetMemberVariableName(column);	
+}
+
+
+public string GetMemberVariableName(ColumnSchema column)
+{
+	string propertyName = column.Name;
+	string memberVariableName =  propertyName.ToLower();
+	
+	return memberVariableName;
+}
+
+public string GetCSharpVariableType(ColumnSchema column)
+{
+	if (column.Name.EndsWith("TypeCode")) return column.Name;
+	
+	switch (column.DataType)
+	{
+		case DbType.AnsiString: return "string";
+		case DbType.AnsiStringFixedLength: return "string";
+		case DbType.Binary: return "byte[]";
+		case DbType.Boolean: return "bool";
+		case DbType.Byte: return "byte";
+		case DbType.Currency: return "decimal";
+		case DbType.Date: return "DateTime";
+		case DbType.DateTime: return "DateTime";
+		case DbType.Decimal: return "decimal";
+		case DbType.Double: return "double";
+		case DbType.Guid: return "Guid";
+		case DbType.Int16: return "short";
+		case DbType.Int32: return "int";
+		case DbType.Int64: return "long";
+		case DbType.Object: return "object";
+		case DbType.SByte: return "sbyte";
+		case DbType.Single: return "float";
+		case DbType.String: return "string";
+		case DbType.StringFixedLength: return "string";
+		case DbType.Time: return "TimeSpan";
+		case DbType.UInt16: return "ushort";
+		case DbType.UInt32: return "uint";
+		case DbType.UInt64: return "ulong";
+		case DbType.VarNumeric: return "decimal";
+		default:
+		{
+			return "__UNKNOWN__" + column.NativeType;
+		}
+	}
+}
+
+public string GetClassName(TableSchema table)
+{
+	
+	if(table==null)
+	{
+	    return null;
+	}	
+	return table.Name.Substring(0, 1).ToUpper() + table.Name.Substring(1).ToLower() ;
+}
+public string GetClassName(string str1)
+{
+	
+	if(str1==null)
+	{
+	    return null;
+	}
+	if(str1.Length ==1 )
+	{
+		return str1.ToLower();
+	}
+    return str1.ToLower();
+}
+public string GetSqlDbType(ColumnSchema column)
+{
+	switch (column.NativeType)
+	{
+		case "bigint": return "BigInt";
+		case "binary": return "Binary";
+		case "bit": return "Bit";
+		case "char": return "Char";
+		case "datetime": return "DateTime";
+		case "decimal": return "Decimal";
+		case "float": return "Float";
+		case "image": return "Image";
+		case "int": return "Int";
+		case "money": return "Money";
+		case "nchar": return "NChar";
+		case "ntext": return "NText";
+		case "numeric": return "Decimal";
+		case "nvarchar": return "NVarChar";
+		case "real": return "Real";
+		case "smalldatetime": return "SmallDateTime";
+		case "smallint": return "SmallInt";
+		case "smallmoney": return "SmallMoney";
+		case "sql_variant": return "Variant";
+		case "sysname": return "NChar";
+		case "text": return "Text";
+		case "timestamp": return "Timestamp";
+		case "tinyint": return "TinyInt";
+		case "uniqueidentifier": return "UniqueIdentifier";
+		case "varbinary": return "VarBinary";
+		case "varchar": return "VarChar";
+		default: return "__UNKNOWN__" + column.NativeType;
+	}
+}
+
+public string GetPrimaryKeyType(TableSchema table)
+{
+	if (table.PrimaryKey != null)
+	{
+		if (table.PrimaryKey.MemberColumns.Count == 1)
+		{
+			return GetCSharpVariableType(table.PrimaryKey.MemberColumns[0]);
+		}
+		else
+		{
+			throw new ApplicationException("This template will not work on primary keys with more than one member column.");
+		}
+	}
+	else
+	{
+		throw new ApplicationException("This template will only work on tables with a primary key.");
+	}
+}
+
+public override string GetFileName()
+{
+	return this.GetClassName(this.SourceTable) + "Services.cs";
+}
+#endregion script
+</script>

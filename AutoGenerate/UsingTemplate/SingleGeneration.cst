@@ -1,0 +1,127 @@
+﻿<%@ CodeTemplate Language="C#" ResponseEncoding="UTF-8" TargetLanguage="Text" Src="" Inherits="" Debug="False" Description="Template description here." %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+
+<%@ Property Name="TableName" Type="String" Category="Context" Optional="True" Description="Table name" %>
+<%@ Property Name="SourceDatabase" Type="SchemaExplorer.DatabaseSchema" DeepLoad="True" Optional="False" Category="01. Getting Started - Required" Description="Database that the tables views, and stored procedures should be based on. IMPORTANT!!! If SourceTables and SourceViews are left blank, the Entire Database will then be generated." %>
+<%@ Property Name="ifReplaceOutputFile" Type="System.Boolean" Default="True" Optional="False" Category="Booleans" Description="Whether to overwrite existing files." %>
+<%@ Assembly Name="System.Design" %>
+<%@ Import Namespace="System.Windows.Forms.Design" %>
+
+
+<%
+
+    if (string.IsNullOrEmpty (OutputDirectory))
+    OutputDirectory = this.CodeTemplateInfo.DirectoryName +"Templates\\";
+    foreach (TableSchema tb in SourceDatabase.Tables)
+    {
+        if(tb.Name == TableName)
+	        OutputIbatisDomainTemplate(tb);
+	}
+
+%>
+
+<script runat="template">
+
+private string _outputDirectory = "";
+
+[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+//[CodeTemplateProperty(CodeTemplatePropertyOption.Optional)]
+[Category("General")]
+[Description("The directory to output the results to.")]
+[DefaultValue("./dsfdfs")]
+public string OutputDirectory
+{
+      get {return _outputDirectory;}
+      set {_outputDirectory= value;}
+}
+
+private string _bathTemplate = "";
+[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+[Category("General")]
+[Description("Target template.")]
+public string BathTemplate
+{
+      get {return _bathTemplate;}
+      set {_bathTemplate= value;}
+}
+
+private string _tail = "";
+[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+[Category("General")]
+[Description("File Tail.")]
+public string Tail
+{
+      get {return _tail;}
+      set {_tail= value;}
+}
+
+private string _head = "";
+[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+[Category("General")]
+[Description("File Head.")]
+public string Head
+{
+      get {return _head;}
+      set {_head= value;}
+}
+
+private string _dbType = "";
+[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+[Category("General")]
+[Description("DataBase Type.")]
+public string DbType
+{
+      get {return _dbType;}
+      set {_dbType= value;}
+}
+
+private CodeTemplate _mySubTemplate;
+[Browsable(false)]
+public CodeTemplate MySubTemplate 
+{ 
+   get 
+   { 
+      if (_mySubTemplate == null) 
+      { 
+        CodeTemplateCompiler compiler = new CodeTemplateCompiler(this.CodeTemplateInfo.DirectoryName + DbType + "Templates\\"+ BathTemplate +".cst"); 
+         compiler.Compile(); 
+         if (compiler.Errors.Count == 0) 
+         { 
+            _mySubTemplate = compiler.CreateInstance(); 
+         } 
+         else 
+         { 
+            for (int i = 0; i < compiler.Errors.Count; i++) 
+            {
+               Response.WriteLine(compiler.Errors[ i].ToString()); 
+		       
+            } 
+         } 
+      } 
+      return _mySubTemplate; 
+   } 
+}
+
+public string GetClassName(TableSchema table)
+{
+	
+	if(table==null)
+	{
+	    return null;
+	}	
+	return table.Name.Substring(0, 1).ToUpper() + table.Name.Substring(1).ToLower() ;
+}
+
+public void OutputIbatisDomainTemplate(TableSchema table) 
+{ 
+    MySubTemplate.SetProperty("DBSource", DbType);
+    MySubTemplate.SetProperty("SourceTable", table); 
+    MySubTemplate.Render(Response);
+    
+    MySubTemplate.RenderToFile(OutputDirectory + _head + GetClassName(table) + Tail + ".cs", ifReplaceOutputFile);
+} 
+
+</script>

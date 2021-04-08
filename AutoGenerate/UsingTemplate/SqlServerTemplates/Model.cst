@@ -1,0 +1,117 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#"  ResponseEncoding="UTF-8" Description="Generates a very simple business object." %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" Optional="True" Description="Table that the object is based on." %>
+<%@ Property Name="Author" Type="String" Category="Context" Optional="True" Default="Hamberger" Description="Create author to this class" %>
+<%@ Property Name="DBSource" Type="String" Category="Context" Optional="True" Description="DataBase type" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+// =================================================================== 
+// 项目说明
+//====================================================================
+// 文件： <%= GetClassName(SourceTable) %>.cs
+// 创 建 人: <%= Author %> 
+// 创建日期: <%= DateTime.Now.ToShortDateString() %>
+// 修 改 人: 
+// 修改日期:
+// 修改内容:
+// 版    本: 1.0.0
+// ===================================================================
+using Grd.Core;
+using Grd.EFCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+/// <summary>
+/// 数据库 [<%= SourceTable.Database.Name %>] 中表 [<%= SourceTable.FullName %>] 的实体类.
+/// </summary>
+namespace Grd.Models
+{
+	/// <summary>
+	///<%= SourceTable.Description %>
+	/// </summary>
+	[Serializable]
+    [DbContext(typeof(<%= DBSource %>DBContext))]
+	public partial class <%= GetClassName(SourceTable)%> : BaseModel<<%= GetCSharpVariableType(SourceTable.Columns[0])%>>
+	{			
+		<% for (int i = 0; i < SourceTable.Columns.Count; i++) { %>
+        ///<summary>
+		///<%=SourceTable.Columns[i].Description.Replace("\n","") %>
+		///</summary>
+        <% if (i == 0)  { %>
+        public override <%= GetCSharpVariableType(SourceTable.Columns[i]) %> <%= GetClassName(SourceTable.Columns[i].Name) %> { get; set; }
+        <% } %>
+        <% else  { %>
+		public <%= GetCSharpVariableType(SourceTable.Columns[i]) %> <%= GetClassName(SourceTable.Columns[i].Name) %> { get; set; }
+        <% } %>    
+		<% if (i < SourceTable.Columns.Count - 1) Response.Write("\r\n"); %>	
+        
+		<% } %>		
+	}
+}
+<script runat="template">
+#region script
+
+public string GetCSharpVariableType(ColumnSchema column)
+{
+	if (column.Name.EndsWith("TypeCode")) return column.Name;
+	switch(column.DataType)
+	{
+		case DbType.Boolean: return "bool?";
+	    case DbType.Byte:return "byte?";
+		case DbType.SByte: return "sbyt?";
+		case DbType.Int16:return "short?";
+		case DbType.Int32:return "int?";
+		case DbType.Int64:return "long?";
+		case DbType.DateTime:case DbType.Date:return "DateTime?";
+		case DbType.Single:return "float?";
+		case DbType.Double:return "double?";
+		case DbType.UInt16: return "ushort?";
+		case DbType.UInt32: return "uint?";
+		case DbType.UInt64: return "ulong?";
+		case DbType.Currency:case DbType.Decimal:case DbType.VarNumeric:return "Decimal?";
+		case DbType.Object: return "object";
+		case DbType.Binary:return "byte[]";
+		case DbType.Time: return "TimeSpan";
+		default:return "string";
+	}
+}
+
+public string GetClassName(TableSchema table)
+{
+    if(table==null)
+	{
+	    return null;
+	}	
+	return table.Name.Substring(0, 1).ToUpper() + table.Name.Substring(1).ToLower() ;
+    
+}
+public string GetClassName(string str1)
+{
+	string pasicString="";
+    pasicString+=str1.Substring(0,1).ToLower()+str1.Substring(1).ToLower();
+	return pasicString;
+}
+public string GetPrimaryKeyType(TableSchema table)
+{
+	if (table.PrimaryKey != null)
+	{
+		if (table.PrimaryKey.MemberColumns.Count == 1)
+		{
+			return GetCSharpVariableType(table.PrimaryKey.MemberColumns[0]);
+		}
+		else
+		{
+			throw new ApplicationException("This template will not work on primary keys with more than one member column.");
+		}
+	}
+	else
+	{
+		throw new ApplicationException("This template will only work on tables with a primary key.");
+	}
+}
+public override string GetFileName()
+{
+	return this.GetClassName(this.SourceTable) + ".cs";
+}
+#endregion script
+</script>

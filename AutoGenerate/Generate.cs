@@ -99,6 +99,7 @@ namespace AutoGenerate
                     compiler.Compile();
                     if (compiler.Errors.Count == 0)
                     {
+
                         foreach (var src in srcs)
                         {
                             string head = "";

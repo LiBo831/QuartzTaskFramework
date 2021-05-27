@@ -14,7 +14,7 @@ namespace Topshelf.Models
 		{
 			string[] values = csvLine.Split(',');
 			Pumproom_warningold warningValues = new Pumproom_warningold();
-			warningValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0'));
+			warningValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
 			warningValues.dimian = ChangeDataToD(values[3]);
 			warningValues.menjin = ChangeDataToD(values[4]);
 			warningValues.yiqquchaoya = ChangeDataToD(values[5]);
@@ -31,7 +31,7 @@ namespace Topshelf.Models
 			warningValues.chaoshi = ChangeDataToD(values[16]);
 			warningValues.yanwu = ChangeDataToD(values[17]);
 			warningValues.gaoshuiwei = ChangeDataToD(values[18]);
-			warningValues.dishuiwei = ChangeDataToD(values[9]);
+			warningValues.dishuiwei = ChangeDataToD(values[19]);
 			warningValues.diandongfa = ChangeDataToD(values[20]);
 			warningValues.paigu = ChangeDataToD(values[21]);
 			warningValues.duandian = ChangeDataToD(values[22]);

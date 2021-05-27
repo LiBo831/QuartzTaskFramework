@@ -28,7 +28,7 @@ namespace Topshelf.Domain.Services
 
         public void BatchInsert(IList<Pumproom_areadataold> areadata) => _pumproom_areadataold.BatchInsert(areadata);
 
-        public int BatchDelete(Expression<Func<Pumproom_areadataold, bool>> @where) => _pumproom_areadataold.Delete(@where);
+        //public int BatchDelete(Expression<Func<Pumproom_areadataold, bool>> @where) => _pumproom_areadataold.Delete(@where);
     }
 }
     

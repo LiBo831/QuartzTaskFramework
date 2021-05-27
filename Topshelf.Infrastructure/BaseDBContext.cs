@@ -11,7 +11,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using Topshelf.Core;
-using Z.EntityFramework.Plus;
 
 namespace Topshelf.Infrastructure
 {
@@ -42,6 +41,18 @@ namespace Topshelf.Infrastructure
         //protected BaseDBContext(DbContextOptions options) : base(options)
         //{
         //    Option = ServiceLocator.Resolve<IOptions<DbContextOption>>().Value;
+        //}
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //optionsBuilder.UseMySql("server=localhost;database=CoreFrameDB;user id=root;password=123456", ServerVersion("5.7.28-mysql"));
+        //    if (Option.IsOutputSql)
+        //    {
+        //        optionsBuilder.UseLoggerFactory(new EFLoggerFactory());
+        //        optionsBuilder.EnableSensitiveDataLogging(true);
+        //    }
+        //    optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        //    base.OnConfiguring(optionsBuilder);
         //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -288,15 +299,15 @@ namespace Topshelf.Infrastructure
 
         public virtual void BatchUpdateSaveChangeAsync<T>(IList<T> entities) where T : class => throw new NotImplementedException();
 
-        public virtual int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
-        {
-            return GetDbSet<T>().Where(where).Update(updateFactory);
-        }
+        //public virtual int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
+        //{
+        //    return GetDbSet<T>().Where(where).Update(updateFactory);
+        //}
 
-        public virtual async Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
-        {
-            return await GetDbSet<T>().Where(where).UpdateAsync(updateFactory);
-        }
+        //public virtual async Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
+        //{
+        //    return await GetDbSet<T>().Where(where).UpdateAsync(updateFactory);
+        //}
 
         public virtual int UpdateRange<T>(IEnumerable<T> entities) where T : class
         {
@@ -304,21 +315,21 @@ namespace Topshelf.Infrastructure
             return SaveChanges();
         }
 
-        /// <summary>
-        /// delete by query.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="where"></param>
-        /// <returns></returns>
-        public virtual int Delete<T>(Expression<Func<T, bool>> @where) where T : class
-        {
-            return GetDbSet<T>().Where(@where).Delete();
-        }
+        ///// <summary>
+        ///// delete by query.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="where"></param>
+        ///// <returns></returns>
+        //public virtual int Delete<T>(Expression<Func<T, bool>> @where) where T : class
+        //{
+        //    return GetDbSet<T>().Where(@where).Delete();
+        //}
 
-        public virtual async Task<int> DeleteAsync<T>(Expression<Func<T, bool>> @where) where T : class
-        {
-            return await GetDbSet<T>().Where(@where).DeleteAsync();
-        }
+        //public virtual async Task<int> DeleteAsync<T>(Expression<Func<T, bool>> @where) where T : class
+        //{
+        //    return await GetDbSet<T>().Where(@where).DeleteAsync();
+        //}
 
         /// <summary>
         /// bulk insert by sqlbulkcopy, and with transaction.

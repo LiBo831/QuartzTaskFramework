@@ -47,10 +47,10 @@ namespace Topshelf.Infrastructure
         void BatchUpdateSaveChange<T>(IList<T> entities) where T : class;
         void BatchUpdateSaveChangeAsync<T>(IList<T> entities) where T : class;
         int UpdateRange<T>(IEnumerable<T> entities) where T : class;
-        int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
-        Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
-        int Delete<T>(Expression<Func<T, bool>> @where) where T : class;
-        Task<int> DeleteAsync<T>(Expression<Func<T, bool>> @where) where T : class;
+        //int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
+        //Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
+        //int Delete<T>(Expression<Func<T, bool>> @where) where T : class;
+        //Task<int> DeleteAsync<T>(Expression<Func<T, bool>> @where) where T : class;
         void BatchInsert<T>(IList<T> entities) where T : class;
         void BatchInsertAsync<T>(IList<T> entities) where T : class;
         void BulkInsertForDatabaseMechanism<T>(IList<T> entities, string destinationTableName = null) where T : class;

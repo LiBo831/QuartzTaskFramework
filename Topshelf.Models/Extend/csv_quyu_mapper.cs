@@ -14,7 +14,7 @@ namespace Topshelf.Models
         {
             string[] values = csvLine.Split(',');
 			Pumproom_areadataold areaValues = new Pumproom_areadataold();
-			areaValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0'));
+			areaValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
 			areaValues.pressure = ChangeDataToD(values[3]);
 			areaValues.frequency1 = ChangeDataToD(values[4]);
 			areaValues.frequency2 = ChangeDataToD(values[5]);

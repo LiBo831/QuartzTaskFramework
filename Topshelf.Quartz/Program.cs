@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using System;
+using System.Threading;
 using Topshelf.Autofac;
 using Topshelf.Core;
 

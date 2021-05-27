@@ -29,11 +29,17 @@ namespace Topshelf.Core
         /// <param name="downpath">下载文件地址</param>
         /// <param name="ip">PLC IP地址</param>
         /// <returns></returns>
-        public static bool DownloadFile(string savepath, string downpath, string ip)
+        public static bool DownloadFile(string savepath, string downpath, string ip, string name)
         {
+
+            if (!Directory.Exists(savepath))
+            {
+                Directory.CreateDirectory(savepath);
+            }
+
             bool result = true;
             string URL = downpath;
-            string filename = savepath;
+            string filename = savepath + "\\" + name;
             HttpWebRequest httpWebRequest = null;
             HttpWebResponse httpWebResponse = null;
             try
@@ -70,67 +76,6 @@ namespace Topshelf.Core
                 if (httpWebResponse != null) httpWebResponse.Close();
             }
             return result;
-        }
-
-
-        /// <summary>
-        /// 读取CSV文件通过文本格式
-        /// </summary>
-        /// <param name="savepath">下载后另存为（全路径）</param>
-        /// <param name="downpath">下载文件地址</param>
-        /// <param name="isNew">是否为新PLC</param>
-        /// <param name="ip">IP地址</param>
-        /// <returns></returns>
-        public static DataTable readCsvTxt(string savepath, string downpath, string ip)
-        {
-            string strpath = savepath;
-            int intColCount = 0;
-            bool blnFlag = true;
-            DataTable mydt = new DataTable("myTableName");
-            DataColumn mydc;
-            DataRow mydr;
-            string strline;
-            string[] aryline;
-            //访问PLC数据文件（CSV）
-            bool download = DownloadFile(savepath, downpath, ip);
-            if (download)
-            {
-                try
-                {
-                    StreamReader mysr = new StreamReader(strpath, Encoding.Default);
-                    while ((strline = mysr.ReadLine()) != null)
-                    {
-                        aryline = strline.Split(',');
-                        if (aryline.Length > 1)
-                        {
-                            if (blnFlag)
-                            {
-                                blnFlag = false;
-                                intColCount = aryline.Length;
-                                for (int i = 0; i < aryline.Length; i++)
-                                {
-                                    mydc = new DataColumn(aryline[i]);
-                                    mydt.Columns.Add(mydc);
-                                }
-                            }
-                            mydr = mydt.NewRow();
-                            for (int i = 0; i < intColCount; i++)
-                            {
-                                if (aryline[i].Trim() == "INF") { mydr[i] = 0; }
-                                else if (aryline[i].Trim() == "NAN") { mydr[i] = 0; }
-                                else { mydr[i] = aryline[i].Trim(); }
-                            }
-                            mydt.Rows.Add(mydr);
-                        }
-                    }
-                    mysr.Dispose();
-                    mysr.Close();
-                    //移除第一行列名
-                    mydt.Rows.RemoveAt(0);
-                }
-                catch (Exception ex) { _log.Error($"创建内存数据错误:[{ip}]_____>原因:{ex.Message}"); }
-            }
-            return mydt;
         }
 
         /// <summary>

@@ -45,20 +45,21 @@ namespace Topshelf.Quartz.Jobs
                 var configs = _config_dataupload.SelectAll().ToList();
                 List<Config_dataupload> _configs = new List<Config_dataupload>();
                 foreach (var pro in profiles)
-                {    
+                {
                     // 網絡不通忽略
                     if (!Ping(pro.network_ip)) { continue; }
                     var config = configs.Find(x => x.pump_id == pro.id);
+                    if (config == null) { continue; }
                     #region 先下載數據
-                    bool aDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}",
-                           downpath: $"{config.visit_url.Trim()}{config.file_name_quyu.Trim()}",
-                           ip: pro.network_ip.Trim());
-                    bool pDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}",
+                    bool aDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
+                                               downpath: $"{config.visit_url.Trim()}{config.file_name_quyu.Trim()}",
+                                               ip: pro.network_ip.Trim(), $"{config.file_name_quyu.Trim()}");
+                    bool pDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
                                                downpath: $"{config.visit_url.Trim()}{config.file_name_gonggong.Trim()}",
-                                               ip: pro.network_ip.Trim());
-                    bool wDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}",
+                                               ip: pro.network_ip.Trim(), $"{config.file_name_gonggong.Trim()}");
+                    bool wDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
                                                downpath: $"{config.visit_url.Trim()}{config.file_name_warning.Trim()}",
-                                               ip: pro.network_ip.Trim());
+                                               ip: pro.network_ip.Trim(), $"{config.file_name_warning.Trim()}");
                     #endregion
                     #region 區域數據
                     if (aDnRst)
@@ -87,7 +88,7 @@ namespace Topshelf.Quartz.Jobs
                         var operData = datas.Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks).ToList();
                         if (operData.Count > 0)
                         {
-                            _pumproom_publicdataold.BatchInsert(datas);
+                            _pumproom_publicdataold.BatchInsert(operData);
                             config.last_time_gonggong = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
                         }
                     }
@@ -103,7 +104,7 @@ namespace Topshelf.Quartz.Jobs
                         var operData = datas.Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks).ToList();
                         if (operData.Count > 0)
                         {
-                            _pumproom_warningold.BatchInsert(datas);
+                            _pumproom_warningold.BatchInsert(operData);
                             config.last_time_warning = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
                         }
                     }

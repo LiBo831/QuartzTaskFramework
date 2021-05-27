@@ -110,15 +110,15 @@ namespace Topshelf.EFCore
         }
 
 
-        public virtual int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory)
-        {
-            return DbContext.Update(where, updateFactory);
-        }
+        //public virtual int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory)
+        //{
+        //    return DbContext.Update(where, updateFactory);
+        //}
 
-        public virtual async Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory)
-        {
-            return await DbContext.UpdateAsync(where, updateFactory);
-        }
+        //public virtual async Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory)
+        //{
+        //    return await DbContext.UpdateAsync(where, updateFactory);
+        //}
 
         public int UpdateBySql(string sql)
         {
@@ -134,15 +134,15 @@ namespace Topshelf.EFCore
             return DbContext.Delete<T, TKey>(key);
         }
 
-        public virtual int Delete(Expression<Func<T, bool>> @where)
-        {
-            return DbContext.Delete(where);
-        }
+        //public virtual int Delete(Expression<Func<T, bool>> @where)
+        //{
+        //    return DbContext.Delete(where);
+        //}
 
-        public virtual async Task<int> DeleteAsync(Expression<Func<T, bool>> @where)
-        {
-            return await DbContext.DeleteAsync(where);
-        }
+        //public virtual async Task<int> DeleteAsync(Expression<Func<T, bool>> @where)
+        //{
+        //    return await DbContext.DeleteAsync(where);
+        //}
 
         #endregion
 

@@ -9,8 +9,8 @@ namespace Topshelf.Quartz
 {
     public class JobService
     {
-        private IScheduler sched;
-        private CancellationTokenSource cts;
+        IScheduler sched;
+        CancellationTokenSource cts;
         private readonly IContainer container;
 
         public JobService(IContainer Container)
@@ -22,21 +22,17 @@ namespace Topshelf.Quartz
         {
             cts = new CancellationTokenSource();
             sched = container.Resolve<IScheduler>();
-            foreach (var ijob in Settings.Instance.JobList)
-            {
+            Settings.Instance.JobList.ForEach(async ijob => {
                 var job = JobBuilder.Create(Type.GetType($"{Settings.Instance.JobNamespceFormat}.{ijob.JobName}"))
                     .WithIdentity(ijob.JobName, Settings.Instance.ServiceName).Build();
                 var trigger = TriggerBuilder.Create()
                     .WithCronSchedule(ijob.Cron).Build();
                 await sched.ScheduleJob(job, trigger, cts.Token).ConfigureAwait(true);
-            }
+            });
             await sched.Start().ConfigureAwait(true);
         }
 
-        public async Task Start()
-        {
-            await InitSchedule();
-        }
+        public async Task Start() => await InitSchedule();
 
         public void Stop()
         {

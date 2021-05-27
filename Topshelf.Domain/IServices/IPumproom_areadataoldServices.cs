@@ -19,7 +19,7 @@ namespace Topshelf.Domain.IServices
     public interface IPumproom_areadataoldServices
     {
         void BatchInsert(IList<Pumproom_areadataold> areadata);
-        int BatchDelete(Expression<Func<Pumproom_areadataold, bool>> @where);
+        //int BatchDelete(Expression<Func<Pumproom_areadataold, bool>> @where);
     }
 }
     

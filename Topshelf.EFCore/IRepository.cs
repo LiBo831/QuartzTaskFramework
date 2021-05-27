@@ -25,8 +25,8 @@ namespace Topshelf.EFCore
         #region Delete
 
         int Delete(TKey key);
-        int Delete(Expression<Func<T, bool>> @where);
-        Task<int> DeleteAsync(Expression<Func<T, bool>> @where);
+        //int Delete(Expression<Func<T, bool>> @where);
+        //Task<int> DeleteAsync(Expression<Func<T, bool>> @where);
         int DeleteBySql(string sql);
 
         #endregion
@@ -39,8 +39,8 @@ namespace Topshelf.EFCore
         void BatchUpdateSaveChangeAsync(IList<T> entities);
         int Update(T model, params string[] updateColumns);
         int UpdateRange(IEnumerable<T> entities);
-        int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
-        Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
+        //int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
+        //Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
         int UpdateBySql(string sql);
 
         #endregion

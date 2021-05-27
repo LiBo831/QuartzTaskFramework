@@ -14,7 +14,7 @@ namespace Topshelf.Models
 		{
 			string[] values = csvLine.Split(',');
 			Pumproom_publicdataold publicValues = new Pumproom_publicdataold();
-			publicValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0'));
+			publicValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
 			publicValues.hour_total_flow = ChangeDataToD(values[3]);
 			publicValues.day_total_flow = ChangeDataToD(values[4]);
 			publicValues.month_total_flow = ChangeDataToD(values[5]);

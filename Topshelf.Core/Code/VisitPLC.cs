@@ -78,6 +78,7 @@ namespace Topshelf.Core
             return result;
         }
 
+
         /// <summary>
         /// 科学计算法转换
         /// </summary>

@@ -18,12 +18,7 @@ namespace Topshelf.Domain.Services
 {
     public class Pumproom_warningoldServices : IPumproom_warningoldServices
     {
-        private readonly IPumproom_warningoldRepository _pumproom_warningold;   
-		
-		public Pumproom_warningoldServices(IPumproom_warningoldRepository pumproom_warningold)
-		{
-			_pumproom_warningold = pumproom_warningold;
-		}
+        public IPumproom_warningoldRepository _pumproom_warningold { get; set; }
 
         public void BatchInsert(IList<Pumproom_warningold> warningdata) => _pumproom_warningold.BatchInsert(warningdata);
     }

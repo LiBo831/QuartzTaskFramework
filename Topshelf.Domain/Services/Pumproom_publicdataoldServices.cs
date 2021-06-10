@@ -18,12 +18,7 @@ namespace Topshelf.Domain.Services
 {
     public class Pumproom_publicdataoldServices : IPumproom_publicdataoldServices
     {
-        private readonly IPumproom_publicdataoldRepository _pumproom_publicdataold; 
-        
-        public Pumproom_publicdataoldServices(IPumproom_publicdataoldRepository pumproom_publicdataold)
-        {
-            _pumproom_publicdataold = pumproom_publicdataold;
-        }
+        public IPumproom_publicdataoldRepository _pumproom_publicdataold { get; set; }
 
         public void BatchInsert(IList<Pumproom_publicdataold> publicdata) => _pumproom_publicdataold.BatchInsert(publicdata);
 

@@ -27,13 +27,9 @@ namespace Topshelf.Domain.Services
 {
     public class <%= GetClassName(SourceTable) %>Services : I<%= GetClassName(SourceTable) %>Services
     {
-        private readonly I<%= GetClassName(SourceTable) %>Repository _<%= GetClassName(SourceTable.Name) %>;   
-		
-		public <%= GetClassName(SourceTable) %>Services(I<%= GetClassName(SourceTable) %>Repository <%= GetClassName(SourceTable.Name) %>)
-		{
-			_<%= GetClassName(SourceTable.Name) %> = <%= GetClassName(SourceTable.Name) %>;
-		}
+		public I<%= GetClassName(SourceTable) %>Repository _<%= GetClassName(SourceTable.Name) %> { get; set; }
         
+
     }
 }
     

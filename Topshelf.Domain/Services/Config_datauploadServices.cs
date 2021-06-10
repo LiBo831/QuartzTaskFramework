@@ -20,12 +20,7 @@ namespace Topshelf.Domain.Services
 {
     public class Config_datauploadServices : IConfig_datauploadServices
     {
-        private readonly IConfig_datauploadRepository _config_dataupload;   
-		
-		public Config_datauploadServices(IConfig_datauploadRepository config_dataupload)
-		{
-			_config_dataupload = config_dataupload;
-		}
+        public IConfig_datauploadRepository _config_dataupload { get; set; }
 
 
         public IList<Config_dataupload> SelectAll() => _config_dataupload.Get();

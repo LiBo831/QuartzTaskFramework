@@ -10,18 +10,13 @@ namespace Topshelf.Quartz.Jobs
 {
     public class OpcCollectionJob : IJob
     {
-        private readonly INLogger _logger;
-        public OpcCollectionJob(INLogger logger)
-        {
-            _logger = logger;
-        }
-
+        public INLogger _logger { get; set; }
 
         public async Task Execute(IJobExecutionContext context)
         {
             try
             {
-
+                
             }
             catch(Exception ex)
             {

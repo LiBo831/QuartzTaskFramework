@@ -18,13 +18,7 @@ namespace Topshelf.Domain.Services
 {
     public class Pumproom_profileServices : IPumproom_profileServices
     {
-        private readonly IPumproom_profileRepository _pumproom_profile;   
-        public Pumproom_profileServices(IPumproom_profileRepository pumproom_profile)
-        {
-            _pumproom_profile = pumproom_profile;
-        }
-
-
+        public IPumproom_profileRepository _pumproom_profile { get; set; }
         public IList<Pumproom_profile> SelectAll() => _pumproom_profile.Get();
 
     }

@@ -1,7 +1,4 @@
 ﻿using Autofac;
-using System;
-using System.Threading;
-using Topshelf.Autofac;
 using Topshelf.Core;
 
 namespace Topshelf.Quartz
@@ -15,10 +12,8 @@ namespace Topshelf.Quartz
             HostFactory.Run(x =>
             {
                 x.UseNLog();
-                x.UseAutofacContainer(container);
                 x.Service<JobService>(s =>
                 {
-                    s.ConstructUsingAutofacContainer();
                     s.ConstructUsing(name => new JobService(container));
                     s.WhenStarted(async tc => await tc.Start());
                     s.WhenStopped(tc => tc.Stop());

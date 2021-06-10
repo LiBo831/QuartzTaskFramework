@@ -9,7 +9,7 @@ namespace Topshelf.Quartz
         internal static ContainerBuilder ConfigureQuartz(this ContainerBuilder builder)
         {
             var schedulerConfig = new NameValueCollection {
-                {"quartz.threadPool.threadCount", "20"},
+                {"quartz.threadPool.threadCount", "4"},
                 {"quartz.scheduler.threadName", "Scheduler"}
             };
             builder.RegisterModule(new QuartzAutofacFactoryModule
@@ -22,7 +22,7 @@ namespace Topshelf.Quartz
                            .InstancePerMatchingLifetimeScope(tag);
                 }
             });
-            builder.RegisterModule(new QuartzAutofacJobsModule(typeof(JobService).Assembly));
+            builder.RegisterModule(new QuartzAutofacJobsModule(typeof(JobService).Assembly) { AutoWireProperties = true });
             return builder;
         }
     }

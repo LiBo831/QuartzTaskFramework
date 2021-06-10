@@ -37,7 +37,7 @@ namespace Topshelf.Quartz
         public void Stop()
         {
             cts.Cancel();
-            sched.Shutdown(true);
+            sched.Shutdown().ConfigureAwait(true);
             container?.Dispose();
         }
     }

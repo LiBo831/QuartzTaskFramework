@@ -28,7 +28,7 @@ namespace Topshelf.Quartz
                    .AsImplementedInterfaces();
             builder.RegisterAssemblyTypes(assembly)
                    .Where(t => t.Name.EndsWith("Services", StringComparison.OrdinalIgnoreCase))
-                   .AsImplementedInterfaces();
+                   .AsImplementedInterfaces().PropertiesAutowired();
             return builder;
         }
     }

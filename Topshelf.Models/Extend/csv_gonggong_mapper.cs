@@ -1,5 +1,6 @@
 ﻿using System;
 using static Topshelf.Core.VisitPLC;
+using static Topshelf.Core.GaiZhou_Lie;
 
 namespace Topshelf.Models
 {
@@ -19,13 +20,13 @@ namespace Topshelf.Models
 			publicValues.day_total_flow = ChangeDataToD(values[4]);
 			publicValues.month_total_flow = ChangeDataToD(values[5]);
 			publicValues.total_flow = ChangeDataToD(values[6]);
-			publicValues.hour_electricity = ChangeDataToD(values[7]);
-			publicValues.day_electricity = ChangeDataToD(values[8]);
-			publicValues.month_electricity = ChangeDataToD(values[9]);
+			publicValues.hour_electricity = dianliu(ChangeDataToD(values[7]));      // lie
+			publicValues.day_electricity = dianliu(ChangeDataToD(values[8]));       // lie
+			publicValues.month_electricity = dianliu(ChangeDataToD(values[9]));     // lie
 			publicValues.hour_unit_consumption = ChangeDataToD(values[10]);
 			publicValues.day_unit_consumption = ChangeDataToD(values[11]);
 			publicValues.month_unit_consumption = ChangeDataToD(values[12]);
-			publicValues.total_electricity = ChangeDataToD(values[13]);
+			publicValues.total_electricity = dianliu(ChangeDataToD(values[13]));    // lie
 			publicValues.liquid_level = ChangeDataToD(values[14]);
 			publicValues.chlorine = ChangeDataToD(values[15]);
 			publicValues.ph = ChangeDataToD(values[16]);

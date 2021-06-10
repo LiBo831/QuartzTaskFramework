@@ -1,5 +1,6 @@
 ﻿using System;
 using static Topshelf.Core.VisitPLC;
+using static Topshelf.Core.GaiZhou_Lie;
 
 namespace Topshelf.Models
 {
@@ -25,10 +26,10 @@ namespace Topshelf.Models
 			areaValues.area = Convert.ToInt32(values[10].Trim());
 			areaValues.month_flow = ChangeDataToD(values[11]);
 			areaValues.total_flow = ChangeDataToD(values[12]);
-			areaValues.hour_electricity = ChangeDataToD(values[13]);
-			areaValues.day_electricity = ChangeDataToD(values[14]);
-			areaValues.month_electricity = ChangeDataToD(values[15]);
-			areaValues.total_electricity = ChangeDataToD(values[16]);
+			areaValues.hour_electricity = dianliu(ChangeDataToD(values[13]));		// lie	
+			areaValues.day_electricity = dianliu(ChangeDataToD(values[14]));		// lie
+			areaValues.month_electricity = dianliu(ChangeDataToD(values[15]));		// lie
+			areaValues.total_electricity = dianliu(ChangeDataToD(values[16]));		// lie
 			//
 			areaValues.pump_id = id;
 			areaValues.pump_name = name;

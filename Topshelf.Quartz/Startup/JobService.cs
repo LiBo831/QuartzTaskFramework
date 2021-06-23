@@ -13,10 +13,7 @@ namespace Topshelf.Quartz
         CancellationTokenSource cts;
         private readonly IContainer container;
 
-        public JobService(IContainer Container)
-        {
-            container = Container;
-        }
+        public JobService(IContainer _container) => container = _container;
 
         public async Task InitSchedule()
         {

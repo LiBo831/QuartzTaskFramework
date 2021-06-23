@@ -7,8 +7,7 @@ namespace Topshelf.Quartz
     {
         static void Main(string[] args)
         {
-            var builder = new ContainerBuilder().ConfigureQuartz().ConfigureSelf();
-            var container = builder.Build();
+            var container = new ContainerBuilder().ConfigureQuartz().ConfigureSelf().Build();
             HostFactory.Run(x =>
             {
                 x.UseNLog();

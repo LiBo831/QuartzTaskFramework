@@ -14,14 +14,15 @@ namespace Topshelf.Quartz.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            try
-            {
-                
-            }
-            catch(Exception ex)
-            {
-                _logger.Warn(ex.ToString());
-            }
+            //try
+            //{
+
+            //}
+            //catch(Exception ex)
+            //{
+            //    _logger.Warn(ex.ToString());
+            //}
+
             await Task.CompletedTask;
         }
 

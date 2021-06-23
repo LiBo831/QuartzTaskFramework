@@ -15,7 +15,8 @@ namespace Topshelf.Models
         {
             string[] values = csvLine.Split(',');
 			Pumproom_areadataold areaValues = new Pumproom_areadataold();
-			areaValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
+			var currentTime = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
+			areaValues.record_time = currentTime;
 			areaValues.pressure = ChangeDataToD(values[3]);
 			areaValues.frequency1 = ChangeDataToD(values[4]);
 			areaValues.frequency2 = ChangeDataToD(values[5]);
@@ -26,10 +27,10 @@ namespace Topshelf.Models
 			areaValues.area = Convert.ToInt32(values[10].Trim());
 			areaValues.month_flow = ChangeDataToD(values[11]);
 			areaValues.total_flow = ChangeDataToD(values[12]);
-			areaValues.hour_electricity = dianliu(ChangeDataToD(values[13]));		// lie	
-			areaValues.day_electricity = dianliu(ChangeDataToD(values[14]));		// lie
-			areaValues.month_electricity = dianliu(ChangeDataToD(values[15]));		// lie
-			areaValues.total_electricity = dianliu(ChangeDataToD(values[16]));		// lie
+			areaValues.hour_electricity = dianliu(ChangeDataToD(values[13]));       // lie	
+			areaValues.day_electricity = dianliu(ChangeDataToD(values[14]));        // lie
+			areaValues.month_electricity = dianliu(ChangeDataToD(values[15]));      // lie
+			areaValues.total_electricity = dianliu(ChangeDataToD(values[16]));      // lie
 			//
 			areaValues.pump_id = id;
 			areaValues.pump_name = name;

@@ -30,37 +30,39 @@ namespace Topshelf.Quartz.Jobs
                 List<Config_dataupload> _configs = new List<Config_dataupload>();
                 foreach (var pro in profiles)
                 {
-                    // 網絡不通忽略
+                    # region 判斷網絡
                     if (!Ping(pro.network_ip)) { continue; }
                     var config = configs.Find(x => x.pump_id == pro.id);
                     if (config == null) { continue; }
-                    #region 先下載數據
+                    #endregion
+                    #region 下載文件
                     bool aDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
                                                downpath: $"{config.visit_url.Trim()}{config.file_name_quyu.Trim()}",
                                                ip: pro.network_ip.Trim(), $"{config.file_name_quyu.Trim()}");
+
                     bool pDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
                                                downpath: $"{config.visit_url.Trim()}{config.file_name_gonggong.Trim()}",
                                                ip: pro.network_ip.Trim(), $"{config.file_name_gonggong.Trim()}");
+
                     bool wDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
                                                downpath: $"{config.visit_url.Trim()}{config.file_name_warning.Trim()}",
                                                ip: pro.network_ip.Trim(), $"{config.file_name_warning.Trim()}");
                     #endregion
+                    #region 裝載數據
                     #region 區域數據
                     if (aDnRst)
                     {
                         csv_quyu_mapper.id = pro.id;
                         csv_quyu_mapper.name = pro.pumproomname;
                         csv_quyu_mapper.deptId = pro.departmentids;
-                        string savepath = $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}";
-                        var datas = File.ReadAllLines(savepath).Skip(1).Select(v => csv_quyu_mapper.FromCsv(v)).ToList();
-                        var operData = datas.Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_quyu).Ticks).ToList();
+                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}").Skip(1).Select(v => csv_quyu_mapper.FromCsv(v))
+                                           .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_quyu).Ticks).ToList();
                         if (operData.Count > 0)
                         {
                             _pumproom_areadataold.BatchInsert(operData);
                             config.last_time_quyu = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
                         }
                         //
-                        ResourcesRelease.ReleaseList(datas);
                         ResourcesRelease.ReleaseList(operData);
                     }
                     #endregion
@@ -70,16 +72,14 @@ namespace Topshelf.Quartz.Jobs
                         csv_gonggong_mapper.id = pro.id;
                         csv_gonggong_mapper.name = pro.pumproomname;
                         csv_gonggong_mapper.deptId = pro.departmentids;
-                        string savepath = $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}";
-                        var datas = File.ReadAllLines(savepath).Skip(1).Select(v => csv_gonggong_mapper.FromCsv(v)).ToList();
-                        var operData = datas.Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks).ToList();
+                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}").Skip(1).Select(v => csv_gonggong_mapper.FromCsv(v))
+                                           .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks).ToList();
                         if (operData.Count > 0)
                         {
                             _pumproom_publicdataold.BatchInsert(operData);
                             config.last_time_gonggong = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
                         }
                         //
-                        ResourcesRelease.ReleaseList(datas);
                         ResourcesRelease.ReleaseList(operData);
                     }
                     #endregion
@@ -89,18 +89,17 @@ namespace Topshelf.Quartz.Jobs
                         csv_warning_mapper.id = pro.id;
                         csv_warning_mapper.name = pro.pumproomname;
                         csv_warning_mapper.deptId = pro.departmentids;
-                        string savepath = $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}";
-                        var datas = File.ReadAllLines(savepath).Skip(1).Select(v => csv_warning_mapper.FromCsv(v)).ToList();
-                        var operData = datas.Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks).ToList();
+                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}").Skip(1).Select(v => csv_warning_mapper.FromCsv(v))
+                                           .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks).ToList();
                         if (operData.Count > 0)
                         {
                             _pumproom_warningold.BatchInsert(operData);
                             config.last_time_warning = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
                         }
                         //
-                        ResourcesRelease.ReleaseList(datas);
                         ResourcesRelease.ReleaseList(operData);
                     }
+                    #endregion
                     #endregion
                     _configs.Add(config);
                 }

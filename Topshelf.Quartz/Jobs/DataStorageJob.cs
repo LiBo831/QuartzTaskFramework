@@ -14,28 +14,12 @@ namespace Topshelf.Quartz.Jobs
 {
     public class DataStorageJob : IJob
     {
-        private readonly INLogger _logger;
-        private readonly IPumproom_profileServices _pumproom_profile;
-        private readonly IConfig_datauploadServices _config_dataupload;
-        private readonly IPumproom_warningoldServices _pumproom_warningold;
-        private readonly IPumproom_areadataoldServices _pumproom_areadataold;
-        private readonly IPumproom_publicdataoldServices _pumproom_publicdataold;
-        
-
-        public DataStorageJob(INLogger logger, 
-                              IPumproom_profileServices pumproom_profile, 
-                              IConfig_datauploadServices config_dataupload,
-                              IPumproom_warningoldServices pumproom_warningold,
-                              IPumproom_areadataoldServices pumproom_areadataold,
-                              IPumproom_publicdataoldServices pumproom_publicdataold)
-        {
-            _logger = logger;
-            _pumproom_profile = pumproom_profile;
-            _config_dataupload = config_dataupload;
-            _pumproom_warningold = pumproom_warningold;
-            _pumproom_areadataold = pumproom_areadataold;
-            _pumproom_publicdataold = pumproom_publicdataold;
-        }
+        public INLogger _logger { get; set; }
+        public IPumproom_profileServices _pumproom_profile { get; set; }
+        public IConfig_datauploadServices _config_dataupload { get; set; }
+        public IPumproom_warningoldServices _pumproom_warningold { get; set; }
+        public IPumproom_areadataoldServices _pumproom_areadataold { get; set; }
+        public IPumproom_publicdataoldServices _pumproom_publicdataold { get; set; }
 
         public async Task Execute(IJobExecutionContext context)
         {

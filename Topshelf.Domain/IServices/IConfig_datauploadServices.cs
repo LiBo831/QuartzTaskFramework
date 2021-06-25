@@ -19,7 +19,7 @@ namespace Topshelf.Domain.IServices
     public interface IConfig_datauploadServices
     {
         IList<Config_dataupload> SelectAll();
-        void BatchUpdateSaveChange(IList<Config_dataupload> entities);
+        void BatchUpdate(IList<Config_dataupload> entities);
     }
 }
     

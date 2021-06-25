@@ -35,8 +35,8 @@ namespace Topshelf.EFCore
 
         int Edit(T entity);
         int EditRange(ICollection<T> entities);
-        void BatchUpdateSaveChange(IList<T> entities);
-        void BatchUpdateSaveChangeAsync(IList<T> entities);
+        void BatchUpdate(IList<T> entities);
+        void BatchUpdateAsync(IList<T> entities);
         int Update(T model, params string[] updateColumns);
         int UpdateRange(IEnumerable<T> entities);
         //int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);

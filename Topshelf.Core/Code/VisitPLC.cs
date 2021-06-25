@@ -82,27 +82,21 @@ namespace Topshelf.Core
         /// </summary>
         /// <param name="strData"></param>
         /// <returns></returns>
-        public static double ChangeDataToD(string strData)
+        public static double ScientificNotationChange(string strData)
         {
+            double dData = 0;
             try
             {
-                double dData;
                 if (strData.Contains("E"))
-                {
                     dData = Math.Round(Convert.ToDouble(double.Parse(strData.Trim().ToString(), System.Globalization.NumberStyles.Float)), 4);
-                    return dData;
-                }
                 else
-                {
                     dData = Math.Round(Convert.ToDouble(strData.Trim()), 4);
-                    return dData;
-                }
             }
-            catch(Exception ex)
+            catch
             {
                 _log.Error($"科学计数法转换失败，{strData}");
-                return 0;
             }
+            return dData;
         }
     }
 }

@@ -89,14 +89,14 @@ namespace Topshelf.EFCore
         /// <param name="where"></param>
         /// <param name="updateExp"></param>
         /// <returns></returns>
-        public virtual void BatchUpdateSaveChange(IList<T> entities)
+        public virtual void BatchUpdate(IList<T> entities)
         {
-            DbContext.BatchUpdateSaveChange(entities);
+            DbContext.BatchUpdate(entities);
         }
 
-        public virtual void BatchUpdateSaveChangeAsync(IList<T> entities)
+        public virtual void BatchUpdateAsync(IList<T> entities)
         {
-            DbContext.BatchUpdateSaveChangeAsync(entities);
+            DbContext.BatchUpdateAsync(entities);
         }
 
         public virtual int Update(T model, params string[] updateColumns)

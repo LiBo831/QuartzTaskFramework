@@ -17,7 +17,7 @@ namespace Topshelf.Quartz
 
         public async Task InitSchedule()
         {
-            cts = new CancellationTokenSource();
+            cts = new();
             sched = container.Resolve<IScheduler>();
             Settings.Instance.JobList.ForEach(async ijob => {
                 var job = JobBuilder.Create(Type.GetType($"{Settings.Instance.JobNamespceFormat}.{ijob.JobName}"))

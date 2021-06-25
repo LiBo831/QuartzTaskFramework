@@ -27,13 +27,13 @@ namespace Topshelf.Quartz.Jobs
             {
                 var profiles = _pumproom_profile.SelectAll();
                 var configs = _config_dataupload.SelectAll().ToList();
-                List<Config_dataupload> _configs = new List<Config_dataupload>();
+                List<Config_dataupload> _configs = new();
                 foreach (var pro in profiles)
                 {
-                    # region 判斷網絡
-                    if (!Ping(pro.network_ip)) { continue; }
                     var config = configs.Find(x => x.pump_id == pro.id);
                     if (config == null) { continue; }
+                    # region 判斷網絡
+                    if (!Ping(pro.network_ip)) { continue; }
                     #endregion
                     #region 下載文件
                     bool aDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
@@ -49,62 +49,57 @@ namespace Topshelf.Quartz.Jobs
                                                ip: pro.network_ip.Trim(), $"{config.file_name_warning.Trim()}");
                     #endregion
                     #region 裝載數據
+                    mapper_head.id = pro.id;
+                    mapper_head.name = pro.pumproomname;
+                    mapper_head.deptId = pro.departmentids;
                     #region 區域數據
                     if (aDnRst)
                     {
-                        csv_quyu_mapper.id = pro.id;
-                        csv_quyu_mapper.name = pro.pumproomname;
-                        csv_quyu_mapper.deptId = pro.departmentids;
-                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}").Skip(1).Select(v => csv_quyu_mapper.FromCsv(v))
+                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}")
+                                           .Skip(1).Select(v => csv_quyu_mapper.FromCsv(v, GaiZhou_Lie.dianliu))
                                            .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_quyu).Ticks).ToList();
                         if (operData.Count > 0)
                         {
                             _pumproom_areadataold.BatchInsert(operData);
                             config.last_time_quyu = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
+                            ResourcesRelease.ReleaseList(operData);
                         }
-                        //
-                        ResourcesRelease.ReleaseList(operData);
                     }
                     #endregion
                     #region 公共數據
                     if (pDnRst)
                     {
-                        csv_gonggong_mapper.id = pro.id;
-                        csv_gonggong_mapper.name = pro.pumproomname;
-                        csv_gonggong_mapper.deptId = pro.departmentids;
-                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}").Skip(1).Select(v => csv_gonggong_mapper.FromCsv(v))
+                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}")
+                                           .Skip(1).Select(v => csv_gonggong_mapper.FromCsv(v, GaiZhou_Lie.dianliu))
                                            .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks).ToList();
                         if (operData.Count > 0)
                         {
                             _pumproom_publicdataold.BatchInsert(operData);
                             config.last_time_gonggong = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
+                            ResourcesRelease.ReleaseList(operData);
                         }
-                        //
-                        ResourcesRelease.ReleaseList(operData);
+
                     }
                     #endregion
                     #region 報警數據
                     if (wDnRst)
                     {
-                        csv_warning_mapper.id = pro.id;
-                        csv_warning_mapper.name = pro.pumproomname;
-                        csv_warning_mapper.deptId = pro.departmentids;
-                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}").Skip(1).Select(v => csv_warning_mapper.FromCsv(v))
+                        var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}")
+                                           .Skip(1).Select(v => csv_warning_mapper.FromCsv(v, ScientificNotationChange))
                                            .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks).ToList();
                         if (operData.Count > 0)
                         {
                             _pumproom_warningold.BatchInsert(operData);
                             config.last_time_warning = operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time.ToString();
+                            ResourcesRelease.ReleaseList(operData);
                         }
-                        //
-                        ResourcesRelease.ReleaseList(operData);
                     }
                     #endregion
                     #endregion
                     _configs.Add(config);
                 }
                 // 更新配置
-                _config_dataupload.BatchUpdateSaveChange(_configs);
+                _config_dataupload.BatchUpdate(_configs);
                 _logger.Info("历史数据已保存！");
                 #region 釋放
                 ResourcesRelease.ReleaseList(profiles.ToList());

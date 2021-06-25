@@ -1,5 +1,4 @@
-﻿using EFCore.BulkExtensions;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,7 +8,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Topshelf.Core;
 using Topshelf.Infrastructure;
 
@@ -35,12 +33,12 @@ namespace Topshelf.EFCore
             base.OnConfiguring(optionsBuilder);
         }
 
-        public override void BatchUpdateSaveChange<T>(IList<T> entities)
+        public override void BatchUpdate<T>(IList<T> entities)
         {
             this.BulkUpdate(entities);
         }
 
-        public override void BatchUpdateSaveChangeAsync<T>(IList<T> entities)
+        public override void BatchUpdateAsync<T>(IList<T> entities)
         {
             this.BulkUpdateAsync(entities);
         }

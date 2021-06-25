@@ -25,7 +25,7 @@ namespace Topshelf.Domain.Services
 
         public IList<Config_dataupload> SelectAll() => _config_dataupload.Get();
 
-        public void BatchUpdateSaveChange(IList<Config_dataupload> entities) => _config_dataupload.BatchUpdateSaveChange(entities);
+        public void BatchUpdate(IList<Config_dataupload> entities) => _config_dataupload.BatchUpdate(entities);
 
 
     }

@@ -295,9 +295,9 @@ namespace Topshelf.Infrastructure
             return SaveChanges();
         }
 
-        public virtual void BatchUpdateSaveChange<T>(IList<T> entities) where T : class => throw new NotImplementedException();
+        public virtual void BatchUpdate<T>(IList<T> entities) where T : class => throw new NotImplementedException();
 
-        public virtual void BatchUpdateSaveChangeAsync<T>(IList<T> entities) where T : class => throw new NotImplementedException();
+        public virtual void BatchUpdateAsync<T>(IList<T> entities) where T : class => throw new NotImplementedException();
 
         //public virtual int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
         //{

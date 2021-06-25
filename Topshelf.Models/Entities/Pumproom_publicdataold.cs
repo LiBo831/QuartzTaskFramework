@@ -87,11 +87,6 @@ namespace Topshelf.Models
 		public double? month_electricity { get; set; }
 
         ///<summary>
-		///总电量
-		///</summary>
-		public double? total_electricity { get; set; }
-
-        ///<summary>
 		///小时单耗
 		///</summary>
 		public double? hour_unit_consumption { get; set; }
@@ -106,7 +101,12 @@ namespace Topshelf.Models
 		///</summary>
 		public double? month_unit_consumption { get; set; }
 
-        ///<summary>
+		///<summary>
+		///总电量
+		///</summary>
+		public double? total_electricity { get; set; }
+
+		///<summary>
 		///液位
 		///</summary>
 		public double? liquid_level { get; set; }

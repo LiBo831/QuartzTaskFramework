@@ -44,8 +44,8 @@ namespace Topshelf.Infrastructure
         T GetSingleOrDefault<T>(Expression<Func<T, bool>> @where = null) where T : class;
         Task<T> GetSingleOrDefaultAsync<T>(Expression<Func<T, bool>> @where = null) where T : class;
         int Update<T>(T model, params string[] updateColumns) where T : class;
-        void BatchUpdateSaveChange<T>(IList<T> entities) where T : class;
-        void BatchUpdateSaveChangeAsync<T>(IList<T> entities) where T : class;
+        void BatchUpdate<T>(IList<T> entities) where T : class;
+        void BatchUpdateAsync<T>(IList<T> entities) where T : class;
         int UpdateRange<T>(IEnumerable<T> entities) where T : class;
         //int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
         //Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;

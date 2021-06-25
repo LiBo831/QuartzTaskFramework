@@ -6,17 +6,23 @@
 
   <ItemGroup>
     <PackageReference Include="AspectCore.Abstractions" Version="2.2.0" />
-    <PackageReference Include="EFCore.BulkExtensions" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Topshelf.Core\Topshelf.Core.csproj" />
     <ProjectReference Include="..\Topshelf.Infrastructure\Topshelf.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Z.EntityFramework.Extensions.EFCore">
+      <HintPath>..\DynamicLibrary\Z.EntityFramework.Extensions.EFCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

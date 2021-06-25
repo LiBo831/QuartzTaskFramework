@@ -46,11 +46,6 @@ namespace Topshelf.Models
 		///</summary>
 		public string department_ids { get; set; }
 
-		///<summary>
-		///区域
-		///</summary>
-		public int? area { get; set; }
-
         ///<summary>
 		///日期
 		///</summary>
@@ -91,7 +86,12 @@ namespace Topshelf.Models
 		///</summary>
 		public double? day_flow { get; set; }
 
-        ///<summary>
+		///<summary>
+		///区域
+		///</summary>
+		public int? area { get; set; }
+
+		///<summary>
 		///
 		///</summary>
 		public double? month_flow { get; set; }

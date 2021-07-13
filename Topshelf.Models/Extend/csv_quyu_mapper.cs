@@ -9,25 +9,28 @@ namespace Topshelf.Models
 		{
 			string[] values = csvLine.Split(',');
 			Pumproom_areadataold areaValues = new Pumproom_areadataold();
-			areaValues.pump_id = id;
-			areaValues.pump_name = name;
-			areaValues.department_ids = deptId;
-			areaValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
-			int idx = 0;
-			Array.ForEach(areaValues.GetType().GetProperties(), p =>
+			if (values.Length > 0 && values.Length == 17)
 			{
-				if (idx > 4)
+				areaValues.pump_id = id;
+				areaValues.pump_name = name;
+				areaValues.department_ids = deptId;
+				areaValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
+				int idx = 0;
+				Array.ForEach(areaValues.GetType().GetProperties(), p =>
 				{
-					string vle = values[idx - 2].Trim();
-					if (p.Name.Contains("electricity"))
-						p.SetValue(areaValues, lie(vle, Core.VisitPLC.ScientificNotationChange));
-					else if (p.Name.Contains("area"))
-						p.SetValue(areaValues, Convert.ToInt32(vle));
-					else
-						p.SetValue(areaValues, Core.VisitPLC.ScientificNotationChange(vle));
-				}
-				idx++;
-			});
+					if (idx > 4)
+					{
+						string vle = values[idx - 2].Trim();
+						if (p.Name.Contains("electricity"))
+							p.SetValue(areaValues, lie(vle, Core.VisitPLC.ScientificNotationChange), null);
+						else if (p.Name.Contains("area"))
+							p.SetValue(areaValues, Convert.ToInt32(vle), null);
+						else
+							p.SetValue(areaValues, Core.VisitPLC.ScientificNotationChange(vle), null);
+					}
+					idx++;
+				});
+			}
 			return areaValues;
 		}
 	}

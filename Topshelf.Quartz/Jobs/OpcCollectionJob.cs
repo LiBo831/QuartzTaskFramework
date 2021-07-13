@@ -1,32 +1,15 @@
 ﻿using Quartz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Topshelf.Core;
 
 namespace Topshelf.Quartz.Jobs
 {
-    public class OpcCollectionJob : IJob
+    public class OpcCollectionJob : JobExtensions, IJob
     {
-        public INLogger _logger { get; set; }
+        public async Task Execute(IJobExecutionContext context) => await JobExecute(context, async () => await Run());
 
-        public async Task Execute(IJobExecutionContext context)
+        public async Task Run()
         {
-            //try
-            //{
-
-            //}
-            //catch(Exception ex)
-            //{
-            //    _logger.Warn(ex.ToString());
-            //}
-
             await Task.CompletedTask;
         }
-
-
-
     }
 }

@@ -9,17 +9,20 @@ namespace Topshelf.Models
 		{
 			string[] values = csvLine.Split(',');
 			Pumproom_warningold warningValues = new Pumproom_warningold();
-			warningValues.pump_id = id;
-			warningValues.pump_name = name;
-			warningValues.department_ids = deptId;
-			warningValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
-			int idx = 0;
-			Array.ForEach(warningValues.GetType().GetProperties(), p =>
+			if (values.Length > 0 && values.Length == 23)
 			{
-				if (idx > 4)
-					p.SetValue(warningValues, snc(values[idx - 2].Trim()));
-				idx++;
-			});
+				warningValues.pump_id = id;
+				warningValues.pump_name = name;
+				warningValues.department_ids = deptId;
+				warningValues.record_time = Convert.ToDateTime(Convert.ToDateTime(values[1].Trim()).ToShortDateString() + " " + values[2].Trim().PadLeft(8, '0')).AddHours(-1);
+				int idx = 0;
+				Array.ForEach(warningValues.GetType().GetProperties(), p =>
+				{
+					if (idx > 4)
+						p.SetValue(warningValues, snc(values[idx - 2].Trim()), null);
+					idx++;
+				});
+			}
 			return warningValues;
 		}
 	}

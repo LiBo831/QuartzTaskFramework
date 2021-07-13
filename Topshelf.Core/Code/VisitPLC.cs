@@ -16,8 +16,16 @@ namespace Topshelf.Core
         /// <returns></returns>
         public static bool Ping(string ip)
         {
-            PingReply pingStatus = new Ping().Send(IPAddress.Parse(ip), 1000); 
-            return pingStatus.Status == IPStatus.Success ? true : false;
+            try
+            {
+                PingReply pingStatus = new Ping().Send(IPAddress.Parse(ip), 1000);
+                return pingStatus.Status == IPStatus.Success ? true : false;
+            }
+            catch (Exception e)
+            {
+                _log.Error($"[{ip}]_____>原因:{e.Message}");
+                throw;
+            }
         }
 
         /// <summary>
@@ -29,12 +37,7 @@ namespace Topshelf.Core
         /// <returns></returns>
         public static bool DownloadFile(string savepath, string downpath, string ip, string name)
         {
-
-            if (!Directory.Exists(savepath))
-            {
-                Directory.CreateDirectory(savepath);
-            }
-
+            if (!Directory.Exists(savepath)) { Directory.CreateDirectory(savepath); }
             bool result = true;
             string URL = downpath;
             string filename = savepath + "\\" + name;

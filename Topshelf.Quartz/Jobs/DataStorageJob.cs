@@ -20,9 +20,8 @@ namespace Topshelf.Quartz.Jobs
         public IPumproom_areadataoldServices _pumproom_areadataold { get; set; }
         public IPumproom_publicdataoldServices _pumproom_publicdataold { get; set; }
 
-        public async Task Execute(IJobExecutionContext context) => await JobExecute(context, async () => await Run());
-
-        public async Task Run()
+        public async Task Execute(IJobExecutionContext context) =>
+            await JobExecute(context, async () =>
         {
             var profiles = _pumproom_profile.SelectAll();
             var configs = _config_dataupload.SelectAll().ToList();
@@ -105,7 +104,7 @@ namespace Topshelf.Quartz.Jobs
             ResourcesRelease.ReleaseList(_configs);
             #endregion
             await Task.CompletedTask;
-        }
+        });
 
     }
 }

@@ -5,11 +5,11 @@ namespace Topshelf.Quartz.Jobs
 {
     public class OpcCollectionJob : JobExtensions, IJob
     {
-        public async Task Execute(IJobExecutionContext context) => await JobExecute(context, async () => await Run());
-
-        public async Task Run()
+        public async Task Execute(IJobExecutionContext context) => 
+            await JobExecute(context, async () =>
         {
             await Task.CompletedTask;
-        }
+        });
+
     }
 }

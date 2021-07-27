@@ -6,7 +6,7 @@ using Topshelf.Core;
 
 namespace Topshelf.Quartz
 {
-    public class JobExtensions
+    public abstract class JobExtensions
     {
         public INLogger _logger { get; set; }
 

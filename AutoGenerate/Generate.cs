@@ -69,12 +69,12 @@ namespace AutoGenerate
                             {
                                 string head = "";
                                 string tail = src.Key;
-                                if (src.Key.Contains("I"))
+                                if (src.Key.StartsWith("I"))
                                 {
                                     head = "I";
                                     tail = src.Key.Substring(1, src.Key.Length - 1);
                                 }
-                                else if (src.Key.Contains("M"))
+                                else if (src.Key.StartsWith("M"))
                                 {
                                     tail = "";
                                 }
@@ -103,12 +103,12 @@ namespace AutoGenerate
                         {
                             string head = "";
                             string tail = src.Key;
-                            if (src.Key.Contains("I"))
+                            if (src.Key.StartsWith("I"))
                             {
                                 head = "I";
                                 tail = src.Key.Substring(1, src.Key.Length - 1);
                             }
-                            else if (src.Key.Contains("M"))
+                            else if (src.Key.StartsWith("M"))
                             {
                                 tail = "";
                             }

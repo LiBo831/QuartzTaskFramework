@@ -33,22 +33,22 @@ namespace Topshelf.EFCore
             base.OnConfiguring(optionsBuilder);
         }
 
-        public override void BatchUpdate<T>(IList<T> entities)
+        public override void BatchUpdate<T>(IEnumerable<T> entities)
         {
             this.BulkUpdate(entities);
         }
 
-        public override void BatchUpdateAsync<T>(IList<T> entities)
+        public override void BatchUpdateAsync<T>(IEnumerable<T> entities)
         {
             this.BulkUpdateAsync(entities);
         }
 
-        public override void BatchInsert<T>(IList<T> entities)
+        public override void BatchInsert<T>(IEnumerable<T> entities)
         {
             this.BulkInsert(entities);
         }
 
-        public override void BatchInsertAsync<T>(IList<T> entities)
+        public override void BatchInsertAsync<T>(IEnumerable<T> entities)
         {
             this.BulkInsertAsync(entities);
         }

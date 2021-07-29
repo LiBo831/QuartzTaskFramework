@@ -15,7 +15,7 @@ namespace Topshelf.EFCore
         Task<int> AddAsync(T entity);
         int AddRange(ICollection<T> entities);
         Task<int> AddRangeAsync(ICollection<T> entities);
-        void BatchInsert(IList<T> entities);
+        void BatchInsert(IEnumerable<T> entities);
         void BatchInsertAsync(IList<T> entities);
         void BulkInsertForDatabaseMechanism(IList<T> entities, string destinationTableName = null);
         int AddBySql(string sql);

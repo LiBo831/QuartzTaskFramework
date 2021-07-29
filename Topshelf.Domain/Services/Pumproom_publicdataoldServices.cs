@@ -20,7 +20,7 @@ namespace Topshelf.Domain.Services
     {
         public IPumproom_publicdataoldRepository _pumproom_publicdataold { get; set; }
 
-        public void BatchInsert(IList<Pumproom_publicdataold> publicdata) => _pumproom_publicdataold.BatchInsert(publicdata);
+        public void BatchInsert(IEnumerable<Pumproom_publicdataold> publicdata) => _pumproom_publicdataold.BatchInsert(publicdata);
 
     }
 }

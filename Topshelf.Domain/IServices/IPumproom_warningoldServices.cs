@@ -16,7 +16,7 @@ namespace Topshelf.Domain.IServices
 {
     public interface IPumproom_warningoldServices
     {
-        void BatchInsert(IList<Pumproom_warningold> warningdata);
+        void BatchInsert(IEnumerable<Pumproom_warningold> warningdata);
     }
 }
     

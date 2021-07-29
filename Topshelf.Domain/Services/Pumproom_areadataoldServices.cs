@@ -21,9 +21,7 @@ namespace Topshelf.Domain.Services
     public class Pumproom_areadataoldServices : IPumproom_areadataoldServices
     {
         public IPumproom_areadataoldRepository _pumproom_areadataold { get; set; }
-        public void BatchInsert(IList<Pumproom_areadataold> areadata) => _pumproom_areadataold.BatchInsert(areadata);
-
-        //public int BatchDelete(Expression<Func<Pumproom_areadataold, bool>> @where) => _pumproom_areadataold.Delete(@where);
+        public void BatchInsert(IEnumerable<Pumproom_areadataold> areadata) => _pumproom_areadataold.BatchInsert(areadata);
     }
 }
     

@@ -14,7 +14,7 @@ namespace Topshelf.Quartz
                 x.Service<JobService>(s =>
                 {
                     s.ConstructUsing(name => new JobService(container));
-                    s.WhenStarted(async tc => await tc.Start());
+                    s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });
 

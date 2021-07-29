@@ -43,7 +43,7 @@ namespace Topshelf.EFCore
             return await DbContext.AddRangeAsync(entities);
         }
 
-        public virtual void BatchInsert(IList<T> entities)
+        public virtual void BatchInsert(IEnumerable<T> entities)
         {
             DbContext.BatchInsert<T>(entities);
         }

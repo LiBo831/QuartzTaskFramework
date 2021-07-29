@@ -16,7 +16,7 @@ namespace Topshelf.Domain.IServices
 {
     public interface IPumproom_publicdataoldServices
     {
-        void BatchInsert(IList<Pumproom_publicdataold> publicdata);
+        void BatchInsert(IEnumerable<Pumproom_publicdataold> publicdata);
     }
 }
     

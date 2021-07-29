@@ -20,7 +20,7 @@ namespace Topshelf.Domain.Services
     {
         public IPumproom_warningoldRepository _pumproom_warningold { get; set; }
 
-        public void BatchInsert(IList<Pumproom_warningold> warningdata) => _pumproom_warningold.BatchInsert(warningdata);
+        public void BatchInsert(IEnumerable<Pumproom_warningold> warningdata) => _pumproom_warningold.BatchInsert(warningdata);
     }
 }
     

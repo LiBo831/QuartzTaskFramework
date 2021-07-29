@@ -9,17 +9,14 @@
 // 修改内容:
 // 版    本: 1.0.0
 // ===================================================================
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using Topshelf.Models;
 
 namespace Topshelf.Domain.IServices
 {
     public interface IPumproom_areadataoldServices
     {
-        void BatchInsert(IList<Pumproom_areadataold> areadata);
-        //int BatchDelete(Expression<Func<Pumproom_areadataold, bool>> @where);
+        void BatchInsert(IEnumerable<Pumproom_areadataold> areadata);
     }
 }
     

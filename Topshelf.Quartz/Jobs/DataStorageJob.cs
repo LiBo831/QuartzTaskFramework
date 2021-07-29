@@ -55,12 +55,11 @@ namespace Topshelf.Quartz.Jobs
                 {
                     var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}")
                                        .Skip(1).Select(v => csv_quyu_mapper.FromCsv(v, GaiZhou_Lie.dianliu))
-                                       .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_quyu).Ticks).ToList();
-                    if (operData.Count > 0)
+                                       .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_quyu).Ticks);
+                    if (operData.Any())
                     {
                         _pumproom_areadataold.BatchInsert(operData);
                         config.last_time_quyu = ((DateTime)operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time).ToString();
-                        ResourcesRelease.ReleaseList(operData);
                     }
                 }
                 #endregion
@@ -69,12 +68,11 @@ namespace Topshelf.Quartz.Jobs
                 {
                     var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}")
                                        .Skip(1).Select(v => csv_gonggong_mapper.FromCsv(v, GaiZhou_Lie.dianliu))
-                                       .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks).ToList();
-                    if (operData.Count > 0)
+                                       .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks);
+                    if (operData.Any())
                     {
                         _pumproom_publicdataold.BatchInsert(operData);
                         config.last_time_gonggong = ((DateTime)operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time).ToString();
-                        ResourcesRelease.ReleaseList(operData);
                     }
                 }
                 #endregion
@@ -83,12 +81,11 @@ namespace Topshelf.Quartz.Jobs
                 {
                     var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}")
                                        .Skip(1).Select(v => csv_warning_mapper.FromCsv(v, ScientificNotationChange))
-                                       .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks).ToList();
-                    if (operData.Count > 0)
+                                       .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks);
+                    if (operData.Any())
                     {
                         _pumproom_warningold.BatchInsert(operData);
                         config.last_time_warning = ((DateTime)operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time).ToString();
-                        ResourcesRelease.ReleaseList(operData);
                     }
                 }
                 #endregion

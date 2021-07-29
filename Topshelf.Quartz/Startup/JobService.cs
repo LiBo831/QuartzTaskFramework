@@ -11,9 +11,9 @@ namespace Topshelf.Quartz
     {
         IScheduler sched;
         CancellationTokenSource cts;
-        private readonly IContainer container;
+        readonly IContainer container;
 
-        public JobService(IContainer _container) => container = _container;
+        public JobService(IContainer _c) => container = _c;
 
         public async Task InitSchedule()
         {
@@ -24,18 +24,17 @@ namespace Topshelf.Quartz
                     .WithIdentity(ijob.JobName, Settings.Instance.ServiceName).Build();
                 var trigger = TriggerBuilder.Create()
                     .WithCronSchedule(ijob.Cron).Build();
-                await sched.ScheduleJob(job, trigger, cts.Token).ConfigureAwait(true);
+                await sched.ScheduleJob(job, trigger, cts.Token);
             });
-            await sched.Start().ConfigureAwait(true);
+            await sched.Start();
         }
 
-        public async Task Start() => await InitSchedule();
+        public async void Start() => await InitSchedule();
 
-        public void Stop()
+        public async void Stop()
         {
             cts.Cancel();
-            sched.Shutdown().ConfigureAwait(true);
-            container?.Dispose();
+            await sched.Shutdown();
         }
     }
 }

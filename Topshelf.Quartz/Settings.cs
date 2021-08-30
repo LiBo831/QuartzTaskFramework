@@ -28,6 +28,8 @@ namespace Topshelf.Core
         public string ServiceDescription => Configuration["ServiceDescription"];
 
         public string JobNamespceFormat => Configuration["Jobs.Namespace"];
+        public string HeartbeatAddress => Configuration["Heartbeat"];
+        public string HeartbeatAppId => Configuration["AppId"];
 
         public List<Jobdetail> JobList => Configuration.GetSection("JobList").Get<List<Jobdetail>>();
 

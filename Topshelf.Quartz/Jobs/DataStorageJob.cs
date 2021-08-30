@@ -94,14 +94,12 @@ namespace Topshelf.Quartz.Jobs
             }
             // 更新配置
             _config_dataupload.BatchUpdate(_configs);
-            _logger.Info("历史数据已保存！");
             #region 釋放
             ResourcesRelease.ReleaseList(profiles.ToList());
             ResourcesRelease.ReleaseList(configs);
             ResourcesRelease.ReleaseList(_configs);
             #endregion
             await Task.CompletedTask;
-        });
-
+        }, "历史数据");
     }
 }

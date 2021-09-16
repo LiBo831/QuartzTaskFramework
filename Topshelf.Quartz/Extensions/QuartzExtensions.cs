@@ -8,9 +8,11 @@ namespace Topshelf.Quartz
     {
         internal static ContainerBuilder ConfigureQuartz(this ContainerBuilder builder)
         {
-            var schedulerConfig = new NameValueCollection {
-                {"quartz.threadPool.threadCount", "5"},
-                {"quartz.scheduler.threadName", "Scheduler"}
+            var schedulerConfig = new NameValueCollection
+            {
+                { "quartz.scheduler.instanceName", "Scheduler" },
+                { "quartz.threadPool.maxConcurrency", "10" },
+                { "quartz.jobStore.type", "Quartz.Simpl.RAMJobStore, Quartz" }
             };
             builder.RegisterModule(new QuartzAutofacFactoryModule
             {

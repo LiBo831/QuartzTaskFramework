@@ -23,6 +23,8 @@ namespace Topshelf.Quartz
             }
             catch (Exception ex)
             {
+                //new JobExecutionException(ex).RefireImmediately = true;    // 立即重新執行任務
+
                 _logger.Warn($" {context.JobDetail.Key.Name} : {ex} ");
                 HttpHelper.PostResponseAsync(Settings.Instance.HeartbeatAddress,
                     JsonConvert.SerializeObject(new

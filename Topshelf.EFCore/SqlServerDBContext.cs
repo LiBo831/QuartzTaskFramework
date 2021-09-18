@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Topshelf.Core;
 using Topshelf.Infrastructure;
 
@@ -33,25 +34,13 @@ namespace Topshelf.EFCore
             base.OnConfiguring(optionsBuilder);
         }
 
-        public override void BatchUpdate<T>(IEnumerable<T> entities)
-        {
-            this.BulkUpdate(entities);
-        }
+        public override void BatchUpdate<T>(IEnumerable<T> entities) => this.BulkUpdate(entities);
 
-        public override void BatchUpdateAsync<T>(IEnumerable<T> entities)
-        {
-            this.BulkUpdateAsync(entities);
-        }
+        public override async Task BatchUpdateAsync<T>(IEnumerable<T> entities) => await this.BulkUpdateAsync(entities);
 
-        public override void BatchInsert<T>(IEnumerable<T> entities)
-        {
-            this.BulkInsert(entities);
-        }
+        public override void BatchInsert<T>(IEnumerable<T> entities) => this.BulkInsert(entities);
 
-        public override void BatchInsertAsync<T>(IEnumerable<T> entities)
-        {
-            this.BulkInsertAsync(entities);
-        }
+        public override async Task BatchInsertAsync<T>(IEnumerable<T> entities) => await this.BulkInsertAsync(entities);
 
 
         #region BulkInsertForDatabaseMechanism

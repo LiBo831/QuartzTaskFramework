@@ -16,7 +16,7 @@ namespace Topshelf.EFCore
         int AddRange(ICollection<T> entities);
         Task<int> AddRangeAsync(ICollection<T> entities);
         void BatchInsert(IEnumerable<T> entities);
-        void BatchInsertAsync(IList<T> entities);
+        Task BatchInsertAsync(IEnumerable<T> entities);
         void BulkInsertForDatabaseMechanism(IList<T> entities, string destinationTableName = null);
         int AddBySql(string sql);
 
@@ -35,8 +35,8 @@ namespace Topshelf.EFCore
 
         int Edit(T entity);
         int EditRange(ICollection<T> entities);
-        void BatchUpdate(IList<T> entities);
-        void BatchUpdateAsync(IList<T> entities);
+        void BatchUpdate(IEnumerable<T> entities);
+        Task BatchUpdateAsync(IEnumerable<T> entities);
         int Update(T model, params string[] updateColumns);
         int UpdateRange(IEnumerable<T> entities);
         //int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);

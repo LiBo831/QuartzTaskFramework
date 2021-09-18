@@ -10,6 +10,7 @@
 // 版    本: 1.0.0
 // ===================================================================
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Topshelf.Domain.IRepository;
 using Topshelf.Domain.IServices;
 using Topshelf.Models;
@@ -20,7 +21,7 @@ namespace Topshelf.Domain.Services
     {
         public IPumproom_warningoldRepository _pumproom_warningold { get; set; }
 
-        public void BatchInsert(IEnumerable<Pumproom_warningold> warningdata) => _pumproom_warningold.BatchInsert(warningdata);
+        public async Task BatchInsertAsync(IEnumerable<Pumproom_warningold> warningdata) => await _pumproom_warningold.BatchInsertAsync(warningdata);
     }
 }
     

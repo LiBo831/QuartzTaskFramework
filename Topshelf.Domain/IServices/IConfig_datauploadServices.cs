@@ -12,14 +12,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Topshelf.Models;
 
 namespace Topshelf.Domain.IServices
 {
     public interface IConfig_datauploadServices
     {
-        IList<Config_dataupload> SelectAll();
-        void BatchUpdate(IList<Config_dataupload> entities);
+        Task<List<Config_dataupload>> SelectAllAsync();
+        Task BatchUpdateAsync(IList<Config_dataupload> entities);
     }
 }
     

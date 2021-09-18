@@ -10,13 +10,14 @@
 // 版    本: 1.0.0
 // ===================================================================
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Topshelf.Models;
 
 namespace Topshelf.Domain.IServices
 {
     public interface IPumproom_areadataoldServices
     {
-        void BatchInsert(IEnumerable<Pumproom_areadataold> areadata);
+        Task BatchInsertAsync(IEnumerable<Pumproom_areadataold> areadata);
     }
 }
     

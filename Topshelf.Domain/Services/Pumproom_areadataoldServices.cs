@@ -13,15 +13,14 @@ using Topshelf.Domain.IServices;
 using Topshelf.Domain.IRepository;
 using System.Collections.Generic;
 using Topshelf.Models;
-using System;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Topshelf.Domain.Services
 {
     public class Pumproom_areadataoldServices : IPumproom_areadataoldServices
     {
         public IPumproom_areadataoldRepository _pumproom_areadataold { get; set; }
-        public void BatchInsert(IEnumerable<Pumproom_areadataold> areadata) => _pumproom_areadataold.BatchInsert(areadata);
+        public async Task BatchInsertAsync(IEnumerable<Pumproom_areadataold> areadata) =>  await _pumproom_areadataold.BatchInsertAsync(areadata);
     }
 }
     

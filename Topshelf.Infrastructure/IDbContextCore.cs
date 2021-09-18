@@ -45,14 +45,14 @@ namespace Topshelf.Infrastructure
         Task<T> GetSingleOrDefaultAsync<T>(Expression<Func<T, bool>> @where = null) where T : class;
         int Update<T>(T model, params string[] updateColumns) where T : class;
         void BatchUpdate<T>(IEnumerable<T> entities) where T : class;
-        void BatchUpdateAsync<T>(IEnumerable<T> entities) where T : class;
+        Task BatchUpdateAsync<T>(IEnumerable<T> entities) where T : class;
         int UpdateRange<T>(IEnumerable<T> entities) where T : class;
         //int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
         //Task<int> UpdateAsync<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class;
         //int Delete<T>(Expression<Func<T, bool>> @where) where T : class;
         //Task<int> DeleteAsync<T>(Expression<Func<T, bool>> @where) where T : class;
         void BatchInsert<T>(IEnumerable<T> entities) where T : class;
-        void BatchInsertAsync<T>(IEnumerable<T> entities) where T : class;
+        Task BatchInsertAsync<T>(IEnumerable<T> entities) where T : class;
         void BulkInsertForDatabaseMechanism<T>(IList<T> entities, string destinationTableName = null) where T : class;
         List<TView> SqlQuery<T, TView>(string sql, params object[] parameters)
             where T : class;

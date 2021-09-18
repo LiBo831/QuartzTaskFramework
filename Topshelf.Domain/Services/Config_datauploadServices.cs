@@ -9,9 +9,8 @@
 // 修改内容:
 // 版    本: 1.0.0
 // ===================================================================
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Topshelf.Domain.IRepository;
 using Topshelf.Domain.IServices;
 using Topshelf.Models;
@@ -23,9 +22,9 @@ namespace Topshelf.Domain.Services
         public IConfig_datauploadRepository _config_dataupload { get; set; }
 
 
-        public IList<Config_dataupload> SelectAll() => _config_dataupload.Get();
+        public async Task<List<Config_dataupload>> SelectAllAsync() => await _config_dataupload.GetAsync();
 
-        public void BatchUpdate(IList<Config_dataupload> entities) => _config_dataupload.BatchUpdate(entities);
+        public async Task BatchUpdateAsync(IList<Config_dataupload> entities) => await _config_dataupload.BatchUpdateAsync(entities);
 
 
     }

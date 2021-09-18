@@ -297,7 +297,7 @@ namespace Topshelf.Infrastructure
 
         public virtual void BatchUpdate<T>(IEnumerable<T> entities) where T : class => throw new NotImplementedException();
 
-        public virtual void BatchUpdateAsync<T>(IEnumerable<T> entities) where T : class => throw new NotImplementedException();
+        public virtual Task BatchUpdateAsync<T>(IEnumerable<T> entities) where T : class => throw new NotImplementedException();
 
         //public virtual int Update<T>(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory) where T : class
         //{
@@ -346,7 +346,7 @@ namespace Topshelf.Infrastructure
 
         public virtual void BatchInsert<T>(IEnumerable<T> entities) where T : class => throw new NotImplementedException();
 
-        public virtual void BatchInsertAsync<T>(IEnumerable<T> entities) where T : class => throw new NotImplementedException();
+        public virtual Task BatchInsertAsync<T>(IEnumerable<T> entities) where T : class => throw new NotImplementedException();
 
         public virtual List<TView> SqlQuery<T, TView>(string sql, params object[] parameters)
             where T : class

@@ -10,13 +10,14 @@
 // 版    本: 1.0.0
 // ===================================================================
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Topshelf.Models;
 
 namespace Topshelf.Domain.IServices
 {
     public interface IPumproom_warningoldServices
     {
-        void BatchInsert(IEnumerable<Pumproom_warningold> warningdata);
+        Task BatchInsertAsync(IEnumerable<Pumproom_warningold> warningdata);
     }
 }
     

@@ -48,9 +48,9 @@ namespace Topshelf.EFCore
             DbContext.BatchInsert<T>(entities);
         }
 
-        public virtual void BatchInsertAsync(IList<T> entities)
+        public virtual async Task BatchInsertAsync(IEnumerable<T> entities)
         {
-            DbContext.BatchInsertAsync<T>(entities);
+            await DbContext.BatchInsertAsync(entities);
         }
 
         public virtual void BulkInsertForDatabaseMechanism(IList<T> entities, string destinationTableName = null)
@@ -89,14 +89,14 @@ namespace Topshelf.EFCore
         /// <param name="where"></param>
         /// <param name="updateExp"></param>
         /// <returns></returns>
-        public virtual void BatchUpdate(IList<T> entities)
+        public virtual void BatchUpdate(IEnumerable<T> entities)
         {
             DbContext.BatchUpdate(entities);
         }
 
-        public virtual void BatchUpdateAsync(IList<T> entities)
+        public virtual async Task BatchUpdateAsync(IEnumerable<T> entities)
         {
-            DbContext.BatchUpdateAsync(entities);
+            await DbContext.BatchUpdateAsync(entities);
         }
 
         public virtual int Update(T model, params string[] updateColumns)

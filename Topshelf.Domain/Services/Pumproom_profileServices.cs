@@ -13,13 +13,14 @@ using Topshelf.Domain.IServices;
 using Topshelf.Domain.IRepository;
 using Topshelf.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Topshelf.Domain.Services
 {
     public class Pumproom_profileServices : IPumproom_profileServices
     {
         public IPumproom_profileRepository _pumproom_profile { get; set; }
-        public IList<Pumproom_profile> SelectAll() => _pumproom_profile.Get();
+        public async Task<IList<Pumproom_profile>> SelectAllAsync() => await _pumproom_profile.GetAsync();
 
     }
 }

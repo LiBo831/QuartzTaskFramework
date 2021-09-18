@@ -25,7 +25,7 @@ namespace Topshelf.Quartz
             {
                 //new JobExecutionException(ex).RefireImmediately = true;    // 立即重新執行任務
 
-                _logger.Warn($" {context.JobDetail.Key.Name} : {ex} ");
+                _logger.Fatal($" {context.JobDetail.Key.Name} : {ex} ");
                 HttpHelper.PostResponseAsync(Settings.Instance.HeartbeatAddress,
                     JsonConvert.SerializeObject(new
                     {
@@ -37,9 +37,8 @@ namespace Topshelf.Quartz
             }
             finally
             {
-                var taskSeconds = Math.Round(stopwatch.Elapsed.TotalSeconds, 3);
                 if (!string.IsNullOrEmpty(outline))
-                    _logger.Info($"{outline}操作完成!___任务耗时 : {taskSeconds} 秒");
+                    _logger.Info($"{outline}操作完成!___任务耗时 : {Math.Round(stopwatch.Elapsed.TotalSeconds, 3)} 秒");
             }
         }
     }

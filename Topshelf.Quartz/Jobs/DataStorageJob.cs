@@ -23,8 +23,8 @@ namespace Topshelf.Quartz.Jobs
         public async Task Execute(IJobExecutionContext context) =>
             await JobExecute(context, async () =>
         {
-            var profiles = _pumproom_profile.SelectAll();
-            var configs = _config_dataupload.SelectAll().ToList();
+            var profiles = await _pumproom_profile.SelectAllAsync();
+            var configs = await _config_dataupload.SelectAllAsync();
             List<Config_dataupload> _configs = new();
             foreach (var pro in profiles)
             {
@@ -34,15 +34,16 @@ namespace Topshelf.Quartz.Jobs
                 if (!Ping(pro.network_ip)) { continue; }
                 #endregion
                 #region 下載文件
-                bool aDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
+                string src = $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}";
+                bool aDnRst = DownloadFile(savepath: src,
                                            downpath: $"{config.visit_url.Trim()}{config.file_name_quyu.Trim()}",
                                            ip: pro.network_ip.Trim(), $"{config.file_name_quyu.Trim()}");
 
-                bool pDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
+                bool pDnRst = DownloadFile(savepath: src,
                                            downpath: $"{config.visit_url.Trim()}{config.file_name_gonggong.Trim()}",
                                            ip: pro.network_ip.Trim(), $"{config.file_name_gonggong.Trim()}");
 
-                bool wDnRst = DownloadFile(savepath: $"{Settings.Instance.CsvPath}{config.pump_name.Trim()}",
+                bool wDnRst = DownloadFile(savepath: src,
                                            downpath: $"{config.visit_url.Trim()}{config.file_name_warning.Trim()}",
                                            ip: pro.network_ip.Trim(), $"{config.file_name_warning.Trim()}");
                 #endregion
@@ -53,12 +54,12 @@ namespace Topshelf.Quartz.Jobs
                 #region 區域數據
                 if (aDnRst)
                 {
-                    var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_quyu.Trim()}")
+                    var operData = File.ReadAllLines($"{src}\\{config.file_name_quyu.Trim()}")
                                        .Skip(1).Select(v => csv_quyu_mapper.FromCsv(v, GaiZhou_Lie.dianliu))
                                        .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_quyu).Ticks);
                     if (operData.Any())
                     {
-                        _pumproom_areadataold.BatchInsert(operData);
+                        await _pumproom_areadataold.BatchInsertAsync(operData);
                         config.last_time_quyu = ((DateTime)operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time).ToString();
                     }
                 }
@@ -66,12 +67,12 @@ namespace Topshelf.Quartz.Jobs
                 #region 公共數據
                 if (pDnRst)
                 {
-                    var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_gonggong.Trim()}")
+                    var operData = File.ReadAllLines($"{src}\\{config.file_name_gonggong.Trim()}")
                                        .Skip(1).Select(v => csv_gonggong_mapper.FromCsv(v, GaiZhou_Lie.dianliu))
                                        .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_gonggong).Ticks);
                     if (operData.Any())
                     {
-                        _pumproom_publicdataold.BatchInsert(operData);
+                        await _pumproom_publicdataold.BatchInsertAsync(operData);
                         config.last_time_gonggong = ((DateTime)operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time).ToString();
                     }
                 }
@@ -79,12 +80,12 @@ namespace Topshelf.Quartz.Jobs
                 #region 報警數據
                 if (wDnRst)
                 {
-                    var operData = File.ReadAllLines($"{Settings.Instance.CsvPath}{config.pump_name.Trim()}\\{config.file_name_warning.Trim()}")
+                    var operData = File.ReadAllLines($"{src}\\{config.file_name_warning.Trim()}")
                                        .Skip(1).Select(v => csv_warning_mapper.FromCsv(v, ScientificNotationChange))
                                        .Where(x => x.record_time?.Ticks > Convert.ToDateTime(config.last_time_warning).Ticks);
                     if (operData.Any())
                     {
-                        _pumproom_warningold.BatchInsert(operData);
+                        await _pumproom_warningold.BatchInsertAsync(operData);
                         config.last_time_warning = ((DateTime)operData.OrderByDescending(t => t.record_time).FirstOrDefault().record_time).ToString();
                     }
                 }
@@ -93,7 +94,7 @@ namespace Topshelf.Quartz.Jobs
                 _configs.Add(config);
             }
             // 更新配置
-            _config_dataupload.BatchUpdate(_configs);
+            await _config_dataupload.BatchUpdateAsync(_configs);
             #region 釋放
             ResourcesRelease.ReleaseList(profiles.ToList());
             ResourcesRelease.ReleaseList(configs);

@@ -11,13 +11,14 @@
 // ===================================================================
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Topshelf.Models;
 
 namespace Topshelf.Domain.IServices
 {
     public interface IPumproom_profileServices
     {
-        IList<Pumproom_profile> SelectAll();
+        Task<IList<Pumproom_profile>> SelectAllAsync();
     }
 }
     

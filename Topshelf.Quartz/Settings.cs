@@ -15,7 +15,7 @@ namespace Topshelf.Core
         private Settings()
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             Configuration = builder.Build();
         }
 
